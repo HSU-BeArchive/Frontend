@@ -1,6 +1,6 @@
 # [BeArchive] - Frontend
 
-> 한성대학교 멋쟁이사자처럼 13기 부기톤 프론트엔드 
+> 한성대학교 멋쟁이사자처럼 13기 부기톤 프론트엔드  
 > 이미지 기반 챗봇 브레인스토밍
 
 ---
@@ -14,8 +14,9 @@ BeArchive는 GPT API를 활용하여 이미지 기반 추천 질문을 제공하
 
 ## 🛠 기술 스택
 
-- **Language**: Javascript  
+- **Language**: Javascript
 - **Framework**: React + Vite
+- **Styling**: SCSS
 
 ---
 ## ✏️ 커밋 메시지 규칙
