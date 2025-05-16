@@ -1,0 +1,118 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as m;
+
+// 버튼 - 확인
+$color-confirm-default: #82cbff;
+$color-confirm-hover: #00a1ff;
+$color-confirm-active: #007bff;
+
+// 버튼 - 취소
+$color-cancel-default: rgba(217, 217, 217, 0.5);
+$color-cancel-hover: #d9d9d9;
+$color-cancel-active: #7b7b7b;
+
+// 폰트
+$font-lg: 1.82vw; // 35px
+$font-md: 1.3vw; // 25px
+$font-button: 1.67vw; // 32px
+
+.dialog-container {
+  width: 39.06vw; // 750px
+  height: 20.57vw; // 395px
+  background-color: $color-white;
+  border-radius: 1.56vw;
+  @include m.flex-center;
+  flex-direction: column;
+}
+
+.dialog-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 1.04vw 1.04vw 0 1.04vw; // 20px
+  margin-bottom: 2.55vw; // 49px
+
+  .dialog-left {
+    @include m.flex-center;
+    gap: 0.78vw; // 15px
+
+    .dialog-icon {
+      width: 2.6vw; // 50px
+      height: 2.6vw;
+      @include m.flex-center;
+      justify-content: center;
+    }
+
+    .dialog-title {
+      font-size: $font-lg;
+      font-weight: 700;
+      @include m.flex-center;
+      flex-grow: 1;
+    }
+  }
+
+  .dialog-close {
+    width: 2.6vw;
+    height: 2.6vw;
+    cursor: pointer;
+    @include m.flex-center;
+    justify-content: center;
+  }
+}
+
+.dialog-content {
+  @include m.flex-center;
+  flex-direction: column;
+  gap: 0.89vw; // 17px
+
+  .dialog-message {
+    font-size: $font-lg;
+    font-weight: 700;
+  }
+
+  .dialog-submessage {
+    font-size: $font-md;
+    font-weight: 400;
+  }
+}
+
+.dialog-buttons {
+  @include m.flex-center;
+  gap: 3.39vw; // 65px
+  margin-top: 2.66vw; // 51px
+
+  .dialog-button {
+    width: 14.06vw; // 270px
+    height: 4.17vw; // 80px
+    border-radius: 1.3vw;
+    font-size: $font-button;
+    font-weight: 600;
+    color: $color-white;
+    border: none;
+    cursor: pointer;
+
+    &.cancel {
+      background-color: $color-cancel-default;
+
+      &:hover {
+        background-color: $color-cancel-hover;
+      }
+
+      &:active {
+        background-color: $color-cancel-active;
+      }
+    }
+
+    &.confirm {
+      background-color: $color-confirm-default;
+
+      &:hover {
+        background-color: $color-confirm-hover;
+      }
+
+      &:active {
+        background-color: $color-confirm-active;
+      }
+    }
+  }
+}
