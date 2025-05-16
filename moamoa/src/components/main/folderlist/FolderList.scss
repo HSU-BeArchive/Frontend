@@ -1,11 +1,13 @@
 @use "../../../styles/variables" as *;
-$color-button: #d9d9d9;
 
-// FolderList.jsx
+$color-button: #d9d9d9;
+$color-gray-light: #7b7b7b;
+$color-gray-strong: #262626;
+
 .folder-list {
   background-color: #f5f5f5;
-  width: 454px;
-  height: 800px;
+  width: 23.65vw; // 454px
+  height: 41.67vw; // 800px
   display: flex;
   flex-direction: column;
 
@@ -13,21 +15,21 @@ $color-button: #d9d9d9;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 25px;
+    padding: 1.56vw 1.3vw; // 30px 25px
   }
 
   &__title {
-    font-size: 20px;
+    font-size: 1.04vw; // 20px
     font-weight: 500;
-    color: #7b7b7b;
+    color: $color-gray-light;
   }
 
   &__add-button {
-    width: 28px;
-    height: 28px;
-    border: 2px solid $color-button;
+    width: 1.46vw; // 28px
+    height: 1.46vw;
+    border: 0.1vw solid $color-button; // 2px
     background-color: transparent;
-    color: #d9d9d980; // 50% 투명도
+    color: #d9d9d980;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -38,7 +40,7 @@ $color-button: #d9d9d9;
     &:hover {
       background-color: $color-button;
       border: none;
-      color: #7b7b7b;
+      color: $color-gray-light;
     }
 
     &:active {
@@ -53,96 +55,96 @@ $color-button: #d9d9d9;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    margin-top: 10px;
+    gap: 1.56vw; // 30px
+    margin-top: 0.52vw; // 10px
 
-    /* 스크롤바 스타일 */
     &::-webkit-scrollbar {
-      width: 5px;
+      width: 0.26vw; // 5px
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #7b7b7b;
-      border-radius: 20px;
+      background-color: $color-gray-light;
+      border-radius: 1.04vw; // 20px
     }
 
     &::-webkit-scrollbar-track {
-      background-color: #d9d9d9;
+      background-color: $color-button;
     }
   }
 }
 
 .folder-item {
   width: 100%;
-  height: 58px;
+  height: 3.02vw; // 58px
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 25px;
-  border-radius: 20px;
+  padding: 0.78vw 1.3vw; // 15px 25px
+  border-radius: 1.04vw; // 20px
   transition: background-color 0.3s ease;
 
   &:not(.folder-item--editing):hover {
     background-color: #d9d9d980;
   }
+
   &--editing {
     background-color: #ffffff;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0.21vw 0.21vw rgba(0, 0, 0, 0.25); // 4px 4px
   }
 
   &__edit-wrapper {
     display: flex;
     align-items: center;
     width: 100%;
-    border-bottom: 1px solid #00a1ff;
+    border-bottom: 0.05vw solid $main-color2; // 1px
   }
 
   &__name {
-    font-size: 20px;
+    font-size: 1.04vw; // 20px
     font-weight: 500;
-    color: #262626;
+    color: $color-gray-strong;
   }
 
   &__input {
     flex: 1;
-    font-size: 20px;
+    font-size: 1.04vw;
     font-weight: 500;
     border: none;
     background: transparent;
     outline: none;
-    color: #262626;
+    color: $color-gray-strong;
   }
 
   &__icons {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.52vw; // 10px
   }
 
   &__icon {
-    width: 28px;
-    height: 28px;
-    color: #7b7b7b;
+    width: 1.46vw; // 28px
+    height: 1.46vw;
+    color: $color-gray-light;
     cursor: pointer;
 
     &:hover {
-      color: #262626;
+      color: $color-gray-strong;
     }
 
     &--confirm {
-      color: #d9d9d9;
-      &:hover {
-        color: #00a1ff;
-      }
+      color: $color-button;
+
+      &:hover,
       &.active {
-        color: #00a1ff;
+        color: $main-color2;
       }
     }
 
     &--cancel {
-      color: #d9d9d9;
+      color: $color-button;
+
       &:hover {
-        color: #7b7b7b;
+        color: $color-gray-light;
       }
     }
   }
