@@ -1,12 +1,21 @@
-# React + Vite
+### 🔹코드 규칙
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- 컴포넌트 생성: 단축키 `rafce` -> 화살표함수 스타일
+- 이름 짓기: 변수/함수 camelCase | 컴포넌트 PascalCase | 폴더 소문자
+- 코드 자동 정렬 Prettier 사용하기
+- 주석 친절하게 달기
 
-Currently, two official plugins are available:
+### 🔹Git 명령어
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| 명령어                      | 설명                                    |
+| --------------------------- | --------------------------------------- |
+| `git clone <url>`           | 원격 저장소 복제                        |
+| `git add .` ⭐              | 전체 변경 파일 스테이징                 |
+| `git add <파일명>`          | 특정 파일만 스테이징                    |
+| `git commit -m "메시지"` ⭐ | 커밋 메시지와 함께 커밋                 |
+| `git log`                   | 커밋 히스토리 확인                      |
+| `git branch`                | 현재 브랜치 목록 확인                   |
+| `git checkout <이름>`       | 해당 브랜치로 이동                      |
+| `git checkout -b <이름>`    | 새 브랜치 생성 + 이동                   |
+| `git push` ⭐               | 현재 브랜치 내용을 원격 `main`에 푸시   |
+| `git pull origin main` ⭐   | 원격 `main` 브랜치 내용 가져오기 (병합) |
