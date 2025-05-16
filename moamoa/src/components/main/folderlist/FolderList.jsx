@@ -38,6 +38,7 @@ const FolderList = () => {
             isEditing={editingId === folder.id}
             onStartEdit={() => setEditingId(folder.id)}
             onStopEdit={() => setEditingId(null)}
+            folderNames={folders.map((f) => f.name)}
           />
         ))}
       </div>
