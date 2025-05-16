@@ -1,3 +1,4 @@
+import "./styles/global.scss";
 import { Outlet } from "react-router-dom";
 
 function App() {
