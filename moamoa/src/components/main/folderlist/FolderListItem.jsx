@@ -1,26 +1,31 @@
 import React, { useState } from "react";
-import { FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import "./FolderList.scss";
 import Dialog from "../../common/dialog/Dialog";
+import useEditableInput from "../../../hooks/useEditableInput";
+import { isDuplicateFolderName } from "../../../utils/validation";
 import { GoPencil } from "react-icons/go";
 import { IoCheckmark, IoCloseOutline } from "react-icons/io5";
 
 const FolderListItem = ({
+  id,
   name,
   isEditing,
   onStartEdit,
   onStopEdit,
   onRequestDelete,
+  onRename,
   folderNames,
 }) => {
-  const [inputValue, setInputValue] = useState(name); // 입력 이름
-  const [originalValue, setOriginalValue] = useState(name); // 원래 이름
+  const { inputValue, setInputValue, originalValue, isModified, commitValue } =
+    useEditableInput(name);
   const [showDialog, setShowDialog] = useState(false); // 중복 경고창
 
-  const isModified = inputValue !== originalValue; // 수정 여부
-  const isDuplicate =
-    inputValue.trim() !== originalValue &&
-    folderNames.includes(inputValue.trim()); // 중복 여부
+  // 중복 여부 체크
+  const isDuplicate = isDuplicateFolderName(
+    inputValue,
+    originalValue,
+    folderNames
+  );
 
   // 이름 수정
   const handleSave = () => {
@@ -31,7 +36,8 @@ const FolderListItem = ({
       setShowDialog(true);
       return;
     }
-    setOriginalValue(inputValue); // 저장된 이름 갱신
+    commitValue(inputValue); // 저장된 이름 갱신
+    onRename(id, inputValue); // 상태에 반영 (UI 갱신용)
     onStopEdit();
   };
 
@@ -42,7 +48,7 @@ const FolderListItem = ({
           <input
             className="folder-item__input"
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={setInputValue}
           />
           <div className="folder-item__icons">
             <IoCheckmark
