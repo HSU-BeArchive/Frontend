@@ -103,10 +103,6 @@ $color-gray-strong: #262626;
     font-size: 1.04vw; // 20px
     font-weight: 500;
     color: $color-gray-strong;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 9ch; // 한5, 영9글자
   }
 
   &__input {

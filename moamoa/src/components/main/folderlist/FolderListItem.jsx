@@ -9,6 +9,7 @@ const FolderListItem = ({
   isEditing,
   onStartEdit,
   onStopEdit,
+  onRequestDelete,
   folderNames,
 }) => {
   const [inputValue, setInputValue] = useState(name); // 입력 이름
@@ -24,12 +25,6 @@ const FolderListItem = ({
     // 중복되거나 비어있는 경우
     if (isDuplicate || inputValue.trim() === "") return;
     setOriginalValue(inputValue); // 저장된 이름 갱신
-    onStopEdit();
-  };
-
-  // 이름 수정 취소
-  const handleCancel = () => {
-    setInputValue(originalValue); // 원래 이름으로
     onStopEdit();
   };
 
@@ -51,7 +46,7 @@ const FolderListItem = ({
             />
             <IoCloseOutline
               className="folder-item__icon folder-item__icon--cancel"
-              onClick={handleCancel}
+              onClick={onRequestDelete}
             />
           </div>
         </div>
