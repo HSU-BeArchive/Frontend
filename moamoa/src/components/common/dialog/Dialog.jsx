@@ -14,23 +14,31 @@ const Dialog = ({
   onConfirm = () => {},
 }) => {
   return (
-    <div className="dialog-container">
-      <div className="dialog-header">
-        <div className="dialog-left">
-          <MdError className="dialog-icon" color={iconColor} />
-          <div className="dialog-title text-alert">{title}</div>
+    <div className="dialog">
+      <div className="dialog__header">
+        <div className="dialog__left">
+          <MdError className="dialog__icon" color={iconColor} />
+          <div className="dialog__title text-alert">{title}</div>
         </div>
-        <IoCloseOutline className="dialog-close" onClick={onCancel} />
+        <IoCloseOutline className="dialog__close" onClick={onCancel} />
       </div>
-      <div className="dialog-content">
-        <div className="dialog-message">{message}</div>
-        <div className="dialog-submessage">{subMessage}</div>
+
+      <div className="dialog__content">
+        <div className="dialog__message">{message}</div>
+        <div className="dialog__submessage">{subMessage}</div>
       </div>
-      <div className="dialog-buttons">
-        <button onClick={onCancel} className="dialog-button cancel">
+
+      <div className="dialog__buttons">
+        <button
+          onClick={onCancel}
+          className="dialog__button dialog__button--cancel"
+        >
           {cancelText}
         </button>
-        <button onClick={onConfirm} className="dialog-button confirm">
+        <button
+          onClick={onConfirm}
+          className="dialog__button dialog__button--confirm"
+        >
           {confirmText}
         </button>
       </div>
