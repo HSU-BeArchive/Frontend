@@ -8,8 +8,8 @@ const Dialog = ({
   title = "타이틀",
   message = "메세지",
   subMessage = "서브메세지",
-  cancelText = "아니요",
-  confirmText = "삭제",
+  cancelText,
+  confirmText,
   onCancel = () => {},
   onConfirm = () => {},
 }) => {
@@ -29,18 +29,22 @@ const Dialog = ({
       </div>
 
       <div className="dialog__buttons">
-        <button
-          onClick={onCancel}
-          className="dialog__button dialog__button--cancel"
-        >
-          {cancelText}
-        </button>
-        <button
-          onClick={onConfirm}
-          className="dialog__button dialog__button--confirm"
-        >
-          {confirmText}
-        </button>
+        {cancelText && (
+          <button
+            onClick={onCancel}
+            className="dialog__button dialog__button--cancel"
+          >
+            {cancelText}
+          </button>
+        )}
+        {confirmText && (
+          <button
+            onClick={onConfirm}
+            className="dialog__button dialog__button--confirm"
+          >
+            {confirmText}
+          </button>
+        )}
       </div>
     </div>
   );
