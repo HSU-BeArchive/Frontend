@@ -4,7 +4,7 @@ import "./FolderList.scss";
 import useFolderList from "../../../hooks/useFolderList";
 import { FaPlus } from "react-icons/fa6";
 import FolderListItem from "./FolderListItem";
-import Dialog from "../../common/dialog/Dialog";
+import Dialog from "../dialog/Dialog";
 
 const FolderList = () => {
   const MAX_NAME_LENGTH = 5;
