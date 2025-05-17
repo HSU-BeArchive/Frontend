@@ -4,7 +4,8 @@ import Dialog from "../dialog/Dialog";
 import useEditableInput from "../../../hooks/useEditableInput";
 import { isDuplicateFolderName } from "../../../utils/validation";
 import { GoPencil } from "react-icons/go";
-import { IoCheckmark, IoCloseOutline } from "react-icons/io5";
+import { IoCheckmark } from "react-icons/io5";
+import { TbTrash } from "react-icons/tb";
 
 const FolderListItem = ({
   id,
@@ -57,7 +58,7 @@ const FolderListItem = ({
               }`}
               onClick={handleSave}
             />
-            <IoCloseOutline
+            <TbTrash
               className="folder-item__icon folder-item__icon--cancel"
               onClick={onRequestDelete}
             />

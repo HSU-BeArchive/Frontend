@@ -135,7 +135,7 @@ $color-gray-strong: #262626;
       color: $color-button;
 
       &:hover,
-      &.active {
+      &:active {
         color: $main-color2;
       }
     }
@@ -145,6 +145,9 @@ $color-gray-strong: #262626;
 
       &:hover {
         color: $color-gray-light;
+      }
+      &:active {
+        color: $color-gray-strong;
       }
     }
   }
