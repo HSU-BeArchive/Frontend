@@ -15,6 +15,19 @@ $font-lg: 1.82vw; // 35px
 $font-md: 1.3vw; // 25px
 $font-button: 1.67vw; // 32px
 
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 23.65vw;
+  width: 76.35vw;
+  height: 41.67vw;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; // 가장 위에
+}
+
 .dialog {
   width: 39.06vw; // 750px
   height: 20.57vw; // 395px
