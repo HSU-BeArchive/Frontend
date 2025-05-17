@@ -1,0 +1,154 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as m;
+
+$color-button: #d9d9d9;
+$color-gray-light: #7b7b7b;
+$color-gray-strong: #262626;
+
+.folder-list {
+  background-color: #f5f5f5;
+  width: 23.65vw; // 454px
+  height: 41.67vw; // 800px
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    @include m.flex-center;
+    justify-content: space-between;
+    padding: 1.56vw 1.3vw; // 30px 25px
+  }
+
+  &__title {
+    font-size: 1.04vw; // 20px
+    font-weight: 500;
+    color: $color-gray-light;
+  }
+
+  &__add-button {
+    width: 1.46vw; // 28px
+    height: 1.46vw;
+    border: 0.1vw solid $color-button; // 2px
+    background-color: transparent;
+    color: #d9d9d980;
+    border-radius: 50%;
+    cursor: pointer;
+    @include m.flex-center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: $color-button;
+      border: none;
+      color: $color-gray-light;
+    }
+
+    &:active {
+      background-color: $color-button;
+      border: none;
+      color: $main-color3;
+    }
+  }
+
+  &__items {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.56vw; // 30px
+    margin-top: 0.52vw; // 10px
+
+    &::-webkit-scrollbar {
+      width: 0.26vw; // 5px
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $color-gray-light;
+      border-radius: 1.04vw; // 20px
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: $color-button;
+    }
+  }
+}
+
+.folder-item {
+  width: 100%;
+  height: 3.02vw; // 58px
+  @include m.flex-center;
+  justify-content: space-between;
+  padding: 0.78vw 1.3vw; // 15px 25px
+  border-radius: 1.04vw; // 20px
+  transition: background-color 0.3s ease;
+
+  &:not(.folder-item--editing):hover {
+    background-color: #d9d9d980;
+  }
+
+  &--editing {
+    background-color: #ffffff;
+    box-shadow: 0 0.21vw 0.21vw rgba(0, 0, 0, 0.25); // 4px 4px
+  }
+
+  &__edit-wrapper {
+    @include m.flex-center;
+    width: 100%;
+    border-bottom: 0.05vw solid $main-color2; // 1px
+  }
+
+  &__name {
+    font-size: 1.04vw; // 20px
+    font-weight: 500;
+    color: $color-gray-strong;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 5.35vw; // 한5, 영8글자
+  }
+
+  &__input {
+    flex: 1;
+    font-size: 1.04vw;
+    font-weight: 500;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: $color-gray-strong;
+  }
+
+  &__icons {
+    @include m.flex-center;
+    gap: 0.52vw; // 10px
+  }
+
+  &__icon {
+    width: 1.46vw; // 28px
+    height: 1.46vw;
+    color: $color-gray-light;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-gray-strong;
+    }
+
+    &--confirm {
+      color: $color-button;
+
+      &:hover,
+      &:active {
+        color: $main-color2;
+      }
+    }
+
+    &--cancel {
+      color: $color-button;
+
+      &:hover {
+        color: $color-gray-light;
+      }
+      &:active {
+        color: $color-gray-strong;
+      }
+    }
+  }
+}
