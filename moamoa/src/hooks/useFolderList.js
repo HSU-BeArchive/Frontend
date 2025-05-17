@@ -38,6 +38,7 @@ const useFolderList = () => {
 
   return {
     folders,
+    setFolders,
     editingId,
     deletingId,
     deletingFolder,
