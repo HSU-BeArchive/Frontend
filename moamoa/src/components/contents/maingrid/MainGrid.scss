@@ -2,20 +2,20 @@
 @use "../../../styles/mixins" as m;
 
 .main-grid {
-  width: 1466px;
-  height: 800px;
+  width: 76.35vw; // 1466px
+  height: 41.67vw; // 800px
   background-color: $color-white;
-  box-shadow: -5px 0px 8px 0px $gray-color1;
+  box-shadow: -0.26vw 0px 0.42vw 0px $gray-color1; // -5px 0px 8px 0px
   overflow-y: auto;
 
   //   스크롤 바
   &::-webkit-scrollbar {
-    width: 5px;
+    width: 0.26vw; // 5px
   }
 
   &::-webkit-scrollbar-thumb {
     background-color: $gray-color2;
-    border-radius: 20px;
+    border-radius: 1.04vw; // 20px
   }
 
   &::-webkit-scrollbar-track {
@@ -27,11 +27,11 @@
     flex-direction: column;
 
     &__header {
-      padding: 30px 20px;
+      padding: 1.56vw 1.04vw; // 30px 20px
 
       .folder-grid__title {
         color: $gray-color3;
-        font-size: 20px;
+        font-size: 1.04vw; // 20px
         font-weight: 600;
       }
     }
@@ -41,7 +41,7 @@
       grid-template-columns: repeat(4, 1fr); // 가로 4개
       justify-items: center;
       align-items: start;
-      gap: 80px 0px;
+      gap: 4.17vw 0px; // 80px 0px
     }
   }
 }

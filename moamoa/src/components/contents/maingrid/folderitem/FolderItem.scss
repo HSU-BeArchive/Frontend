@@ -4,22 +4,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 116px;
-  border-radius: 20px;
-  padding-bottom: 10px;
+  width: 6.04vw; // 116px
+  border-radius: 1.04vw; // 20px
+  padding-bottom: 0.52vw; // 10px
 
   &:hover {
     background-color: $background-color2;
   }
 
   img {
-    width: 116px;
-    height: 116px;
+    width: 6.04vw; // 116px
+    height: 6.04vw; // 116px
     cursor: pointer;
   }
 
   span {
-    font-size: 20px;
+    font-size: 1.04vw; // 20px
     font-weight: 600;
     color: $gray-color3;
     text-align: center;
