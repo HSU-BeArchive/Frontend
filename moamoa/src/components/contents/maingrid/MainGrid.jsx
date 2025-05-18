@@ -1,6 +1,6 @@
 import React from "react";
 import "./MainGrid.scss";
-import dummyFolders from "../../data/dummyFolders.json";
+import dummyFolders from "../../../data/dummyFolders.json";
 import FolderItem from "./folderitem/FolderItem";
 
 const MainGrid = () => {
