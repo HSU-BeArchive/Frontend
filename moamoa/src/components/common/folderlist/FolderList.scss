@@ -124,19 +124,18 @@ $color-gray-strong: #262626;
   &__icon {
     width: 1.46vw; // 28px
     height: 1.46vw;
-    color: $color-gray-light;
     cursor: pointer;
-
-    &:hover {
-      color: $color-gray-strong;
-    }
 
     &--confirm {
       color: $color-button;
 
-      &:hover,
-      &:active {
+      &.active,
+      &:hover {
         color: $main-color2;
+      }
+
+      &:active {
+        color: $main-color3;
       }
     }
 

@@ -49,7 +49,7 @@ const FolderListItem = ({
           <input
             className="folder-item__input"
             value={inputValue}
-            onChange={setInputValue}
+            onChange={(e) => setInputValue(e.target.value)}
           />
           <div className="folder-item__icons">
             <IoCheckmark
