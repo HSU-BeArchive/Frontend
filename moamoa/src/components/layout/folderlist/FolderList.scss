@@ -1,12 +1,12 @@
 @use "../../../styles/variables" as *;
 @use "../../../styles/mixins" as m;
 
-$color-button: #d9d9d9;
-$color-gray-light: #7b7b7b;
+$color-button: $gray-color2;
+$color-gray-light: $gray-color3;
 $color-gray-strong: #262626;
 
 .folder-list {
-  background-color: #f5f5f5;
+  background-color: $background-color2;
   width: 23.65vw; // 454px
   height: 41.67vw; // 800px
   display: flex;
@@ -29,7 +29,7 @@ $color-gray-strong: #262626;
     height: 1.46vw;
     border: 0.1vw solid $color-button; // 2px
     background-color: transparent;
-    color: #d9d9d980;
+    color: $gray-color1;
     border-radius: 50%;
     cursor: pointer;
     @include m.flex-center;
@@ -82,11 +82,11 @@ $color-gray-strong: #262626;
   transition: background-color 0.3s ease;
 
   &:not(.folder-item--editing):hover {
-    background-color: #d9d9d980;
+    background-color: $gray-color1;
   }
 
   &--editing {
-    background-color: #ffffff;
+    background-color: $color-white;
     box-shadow: 0 0.21vw 0.21vw rgba(0, 0, 0, 0.25); // 4px 4px
   }
 
