@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./FolderList.scss";
-import Dialog from "../dialog/Dialog";
+import Dialog from "../../common/dialog/Dialog";
 import useEditableInput from "../../../hooks/useEditableInput";
 import { isDuplicateFolderName } from "../../../utils/validation";
 import { GoPencil } from "react-icons/go";
