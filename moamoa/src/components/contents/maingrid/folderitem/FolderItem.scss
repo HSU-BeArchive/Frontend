@@ -1,18 +1,27 @@
+@use "../../../../styles/variables" as *;
+
 .folder {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 116px;
+  border-radius: 20px;
+  padding-bottom: 10px;
+
+  &:hover {
+    background-color: $background-color2;
+  }
 
   img {
-    width: 60px;
-    height: 60px;
+    width: 116px;
+    height: 116px;
     cursor: pointer;
   }
 
   span {
     font-size: 20px;
     font-weight: 600;
-    color: #7b7b7b;
+    color: $gray-color3;
     text-align: center;
   }
 }

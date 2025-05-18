@@ -1,11 +1,11 @@
-@use "../../styles//variables" as *;
-@use "../../styles/mixins" as m;
+@use "../../../styles//variables" as *;
+@use "../../../styles/mixins" as m;
 
 .main-grid {
   width: 1466px;
   height: 800px;
-  background-color: #ffffff;
-  box-shadow: -5px 0px 8px 0px rgba(217, 217, 217, 0.5);
+  background-color: $color-white;
+  box-shadow: -5px 0px 8px 0px $gray-color1;
   overflow-y: auto;
 
   //   스크롤 바
@@ -14,12 +14,12 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #d9d9d9;
+    background-color: $gray-color2;
     border-radius: 20px;
   }
 
   &::-webkit-scrollbar-track {
-    background-color: #f5f5f5;
+    background-color: $background-color2;
   }
 
   .folder-grid {
@@ -30,7 +30,7 @@
       padding: 30px 20px;
 
       .folder-grid__title {
-        color: #7b7b7b;
+        color: $gray-color3;
         font-size: 20px;
         font-weight: 600;
       }
@@ -39,23 +39,9 @@
     &__items {
       display: grid;
       grid-template-columns: repeat(4, 1fr); // 가로 4개
-      gap: 80px 276px;
-      padding: 46px 71px;
-      color: #7b7b7b;
-
-      .folder {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 5px;
-
-        img {
-          width: 116px;
-          height: 116px;
-        }
-      }
+      justify-items: center;
+      align-items: start;
+      gap: 80px 0px;
     }
   }
 }
