@@ -1,0 +1,27 @@
+@use "../../../../styles/variables" as *;
+
+.folder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 6.04vw; // 116px
+  border-radius: 1.04vw; // 20px
+  padding-bottom: 0.52vw; // 10px
+
+  &:hover {
+    background-color: $background-color2;
+  }
+
+  img {
+    width: 6.04vw; // 116px
+    height: 6.04vw; // 116px
+    cursor: pointer;
+  }
+
+  span {
+    font-size: 1.04vw; // 20px
+    font-weight: 600;
+    color: $gray-color3;
+    text-align: center;
+  }
+}

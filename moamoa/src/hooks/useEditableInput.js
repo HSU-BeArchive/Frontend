@@ -7,11 +7,6 @@ const useEditableInput = (initValue = "") => {
 
   const isModified = inputValue !== originalValue; // 수정 여부
 
-  // 입력 값 반영
-  const updateInput = (e) => {
-    setInputValue(e.target.value);
-  };
-
   // 입력 값 저장
   const commitValue = () => {
     setOriginalValue(inputValue);
@@ -19,7 +14,7 @@ const useEditableInput = (initValue = "") => {
 
   return {
     inputValue,
-    setInputValue: updateInput,
+    setInputValue,
     originalValue,
     isModified,
     commitValue,

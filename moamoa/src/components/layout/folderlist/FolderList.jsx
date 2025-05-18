@@ -1,5 +1,19 @@
 import React from "react";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { restrictToParentElement } from "@dnd-kit/modifiers";
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import "./FolderList.scss";
 import useFolderList from "../../../hooks/useFolderList";
 import { FaPlus } from "react-icons/fa6";
@@ -21,20 +35,26 @@ const FolderList = () => {
     handleRenameFolder,
   } = useFolderList();
 
-  // 보여질 폴더명 자리수
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    })
+  );
+
   const formatFolderName = (name) => {
-    return name.length > 5 ? name.slice(0, MAX_NAME_LENGTH) + "…" : name;
+    return name.length > MAX_NAME_LENGTH
+      ? name.slice(0, MAX_NAME_LENGTH) + "…"
+      : name;
   };
 
-  const handleDragEnd = (result) => {
-    const { source, destination } = result;
-    if (!destination) return;
-
-    const updated = [...folders];
-    const [moved] = updated.splice(source.index, 1);
-    updated.splice(destination.index, 0, moved);
-
-    setFolders(updated);
+  const handleDragEnd = ({ active, over }) => {
+    if (active.id !== over?.id) {
+      const oldIndex = folders.findIndex((f) => f.id === active.id);
+      const newIndex = folders.findIndex((f) => f.id === over?.id);
+      setFolders((items) => arrayMove(items, oldIndex, newIndex));
+    }
   };
 
   return (
@@ -44,48 +64,34 @@ const FolderList = () => {
         <FaPlus onClick={handleAddFolder} className="folder-list__add-button" />
       </div>
 
-      {/* 드래그 앤 드롭 가능 영역 */}
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="folder-list">
-          {(provided) => (
-            <div
-              className="folder-list__items"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {folders.map((folder, index) => (
-                <Draggable
-                  key={folder.id}
-                  draggableId={folder.id.toString()}
-                  index={index}
-                >
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <FolderListItem
-                        id={folder.id}
-                        name={folder.name}
-                        isEditing={editingId === folder.id}
-                        onStartEdit={() => setEditingId(folder.id)}
-                        onStopEdit={() => setEditingId(null)}
-                        onRequestDelete={() => setDeletingId(folder.id)}
-                        onRename={handleRenameFolder}
-                        folderNames={folders.map((f) => f.name)}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+        modifiers={[restrictToParentElement]}
+      >
+        <SortableContext
+          items={folders.map((f) => f.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          <div className="folder-list__items">
+            {folders.map((folder) => (
+              <SortableFolder
+                key={folder.id}
+                id={folder.id}
+                folder={folder}
+                isEditing={editingId === folder.id}
+                onStartEdit={() => setEditingId(folder.id)}
+                onStopEdit={() => setEditingId(null)}
+                onRequestDelete={() => setDeletingId(folder.id)}
+                onRename={handleRenameFolder}
+                folderNames={folders.map((f) => f.name)}
+              />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
 
-      {/* 삭제 모드 */}
       {deletingId !== null && (
         <Dialog
           title="폴더 생성 취소"
@@ -102,5 +108,39 @@ const FolderList = () => {
     </div>
   );
 };
+
+function SortableFolder({
+  id,
+  folder,
+  isEditing,
+  onStartEdit,
+  onStopEdit,
+  onRequestDelete,
+  onRename,
+  folderNames,
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      <FolderListItem
+        id={folder.id}
+        name={folder.name}
+        isEditing={isEditing}
+        onStartEdit={onStartEdit}
+        onStopEdit={onStopEdit}
+        onRequestDelete={onRequestDelete}
+        onRename={onRename}
+        folderNames={folderNames}
+      />
+    </div>
+  );
+}
 
 export default FolderList;
