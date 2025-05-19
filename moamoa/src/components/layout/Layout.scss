@@ -1,0 +1,11 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4.17vw;
+
+  &__body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+}
