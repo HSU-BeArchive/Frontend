@@ -19,6 +19,7 @@ import useFolderList from "../../../hooks/useFolderList";
 import { FaPlus } from "react-icons/fa6";
 import FolderListItem from "./FolderListItem";
 import Dialog from "../../common/dialog/Dialog";
+import useDialog from "../../../hooks/useDialog";
 
 const FolderList = () => {
   const MAX_NAME_LENGTH = 5;
@@ -26,14 +27,30 @@ const FolderList = () => {
     folders,
     setFolders,
     editingId,
-    deletingId,
-    deletingFolder,
     setEditingId,
-    setDeletingId,
     handleAddFolder,
     handleConfirmDelete,
     handleRenameFolder,
   } = useFolderList();
+
+  const formatFolderName = (name) => {
+    return name.length > MAX_NAME_LENGTH
+      ? name.slice(0, MAX_NAME_LENGTH) + "…"
+      : name;
+  };
+
+  // Dialog 제어
+  const { showDialog } = useDialog();
+  const handleDelete = (folder) => {
+    showDialog({
+      title: "폴더 생성 취소",
+      message: `(${formatFolderName(folder.name)}) 폴더를 삭제하시겠습니까?`,
+      subMessage: "삭제할 경우 복구하실 수 없습니다.",
+      confirmText: "삭제",
+      cancelText: "아니요",
+      onConfirm: () => handleConfirmDelete(folder.id),
+    });
+  };
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -42,12 +59,6 @@ const FolderList = () => {
       },
     })
   );
-
-  const formatFolderName = (name) => {
-    return name.length > MAX_NAME_LENGTH
-      ? name.slice(0, MAX_NAME_LENGTH) + "…"
-      : name;
-  };
 
   const handleDragEnd = ({ active, over }) => {
     if (active.id !== over?.id) {
@@ -83,7 +94,7 @@ const FolderList = () => {
                 isEditing={editingId === folder.id}
                 onStartEdit={() => setEditingId(folder.id)}
                 onStopEdit={() => setEditingId(null)}
-                onRequestDelete={() => setDeletingId(folder.id)}
+                onRequestDelete={() => handleDelete(folder)}
                 onRename={handleRenameFolder}
                 folderNames={folders.map((f) => f.name)}
               />
@@ -91,20 +102,6 @@ const FolderList = () => {
           </div>
         </SortableContext>
       </DndContext>
-
-      {deletingId !== null && (
-        <Dialog
-          title="폴더 생성 취소"
-          message={`(${formatFolderName(
-            deletingFolder.name
-          )}) 폴더를 삭제하시겠습니까?`}
-          subMessage="삭제할 경우 복구하실 수 없습니다."
-          confirmText="삭제"
-          cancelText="아니요"
-          onCancel={() => setDeletingId(null)}
-          onConfirm={handleConfirmDelete}
-        />
-      )}
     </div>
   );
 };

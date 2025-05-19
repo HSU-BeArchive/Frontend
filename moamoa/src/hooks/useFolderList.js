@@ -5,9 +5,7 @@ import dummyFolder from "../data/dummyFolders.json";
 const useFolderList = () => {
   // 폴더 목록 -> api 연결 예정
   const [folders, setFolders] = useState(dummyFolder);
-
   const [editingId, setEditingId] = useState(null); // 편집 여부
-  const [deletingId, setDeletingId] = useState(null); // 삭제 여부
 
   // 새 폴더 추가
   const handleAddFolder = () => {
@@ -20,9 +18,8 @@ const useFolderList = () => {
   };
 
   // 폴더 삭제
-  const handleConfirmDelete = () => {
-    setFolders(folders.filter((f) => f.id !== deletingId));
-    setDeletingId(null);
+  const handleConfirmDelete = (id) => {
+    setFolders((prev) => prev.filter((f) => f.id !== id));
   };
 
   // 새로운 이름 반영
@@ -34,16 +31,11 @@ const useFolderList = () => {
     );
   };
 
-  const deletingFolder = folders.find((f) => f.id === deletingId) || null;
-
   return {
     folders,
     setFolders,
     editingId,
-    deletingId,
-    deletingFolder,
     setEditingId,
-    setDeletingId,
     handleAddFolder,
     handleConfirmDelete,
     handleRenameFolder,
