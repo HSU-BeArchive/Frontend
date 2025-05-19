@@ -1,0 +1,70 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as m;
+
+.header {
+  width: 100%;
+  height: 10.42vw;
+  background-color: $color-white;
+  @include m.flex-center;
+  justify-content: space-between;
+  padding: 0 4.17vw;
+
+  &__logo {
+    flex-shrink: 0;
+  }
+
+  &__right {
+    @include m.flex-center;
+    gap: 0.99vw;
+
+    .account-box {
+      width: 13.28vw;
+      height: 4.95vw;
+      background-color: $background-color2;
+      border-radius: 2.6vw;
+      @include m.flex-center;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0.52vw;
+      gap: 0.52vw;
+
+      .account-id {
+        font-size: 1.3vw;
+        font-weight: 500;
+        color: #262626;
+      }
+
+      .logout-button {
+        width: 6.46vw;
+        height: 1.51vw;
+        border-radius: 2.6vw;
+        background-color: $gray-color1;
+        font-size: 0.94vw;
+        font-weight: 400;
+        color: $gray-color3;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background: $gray-color2;
+          color: #262626;
+        }
+        &:active {
+          background: $main-color1;
+          color: $color-white;
+        }
+      }
+    }
+  }
+}
+
+.home-button {
+  color: $gray-color2;
+
+  &:hover {
+    color: $main-color1;
+  }
+  &:active {
+    color: $main-color2;
+  }
+}
