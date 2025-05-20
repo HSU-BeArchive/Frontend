@@ -1,6 +1,6 @@
 import React from "react";
 import ArchiveCard from "./ArchiveCard";
-import "./archive.scss";
+import "./Archive.scss";
 
 const dummyData = Array(9).fill("레퍼런스 이름");
 

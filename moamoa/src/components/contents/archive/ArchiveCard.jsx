@@ -1,5 +1,5 @@
 import React from "react";
-import "./archive.scss";
+import "./Archive.scss";
 
 const ArchiveCard = ({ name, onDelete }) => {
   return (

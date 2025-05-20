@@ -1,17 +1,18 @@
+@use "../../../styles/variables" as *;
+
 .archive-board-wrapper {
-  padding: 86px 54px;
-  height: 100%;
-  max-height: 800px;
+  width: 76.35vw; // 1466px
+  height: 41.67vw; // 800px
   overflow-y: auto;
   background-color: #FFFFFF;
 
   &::-webkit-scrollbar {
-    width: 5px;
+    width: 0.26vw; // 5px
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #d9d9d9;
-    border-radius: 20px;
+    background-color: $gray-color2;
+    border-radius: 1.04vw; // 20px
   }
 
   &::-webkit-scrollbar-track {
@@ -19,71 +20,69 @@
   }
 }
 
+.archive-board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.56vw 1.04vw; // 30px 20px
+
+  .archive-board-title {
+    font-size: 1.04vw; // 20px
+    font-weight: 600;
+    color: $gray-color3;
+  }
+
+  .archive-board-buttons {
+    display: flex;
+    gap: 1.1vw; // 21px
+  }
+}
+
 .archive-board {
   display: grid;
-  grid-template-columns: repeat(4, 300px);
-  gap: 80px 45px;
+  grid-template-columns: repeat(4, 15.63vw); // 300px
+  gap: 4.17vw 2.34vw; // 80px 45px
   justify-content: center;
 }
 
-
 .archive-card {
   background-color: transparent;
-  width: 300px;
+  width: 15.63vw; // 300px
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 0.94vw; // 18px
   position: relative;
 
   .card-thumbnail {
     width: 100%;
-    height: 220px;
-    background-color: #d9d9d9;
-    border-radius: 20px;
+    height: 11.46vw; // 220px
+    background-color: $gray-color2;
+    border-radius: 1.04vw; // 20px
     position: relative;
   }
 
   .delete-button {
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 1.04vw; // 20px
+    top: 1.04vw;
     border: none;
     background: none;
-    font-size: 25px;
+    font-size: 1.3vw; // 약 25px
     cursor: pointer;
     color: #262626;
   }
 
   .card-name {
     width: 100%;
-    height: 55px;
-    background-color: #d9d9d9;
+    height: 2.86vw; // 55px
+    background-color: $gray-color2;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 600;
-    font-size: 20px;
-    border-radius: 15px;
-  }
-}
-
-.archive-board-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 28px;
-
-  .archive-board-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #7B7B7B;
-  }
-
-  .archive-board-buttons {
-    display: flex;
-    gap: 21px;
-
+    font-size: 1.04vw; // 20px
+    border-radius: 0.78vw; // 15px
   }
 }
 
