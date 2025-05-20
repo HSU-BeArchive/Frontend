@@ -40,7 +40,7 @@ const MainGrid = () => {
   return (
     <div className="folder-grid">
       <div className="folder-grid__header">
-        <span className="folder-grid__title">아카이브폴더</span>
+        <span className="folder-grid__title">아카이브 보드</span>
       </div>
 
       <DndContext
