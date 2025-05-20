@@ -16,10 +16,10 @@ $font-md: 1.3vw; // 25px
 $font-button: 1.67vw; // 32px
 
 .dialog-overlay {
-  position: fixed;
-  top: 0;
+  position: absolute;
+  top: 10.42vw;
   left: 23.65vw;
-  width: 76.35vw;
+  width: 76%;
   height: 41.67vw;
   background-color: rgba(0, 0, 0, 0.1);
   display: flex;

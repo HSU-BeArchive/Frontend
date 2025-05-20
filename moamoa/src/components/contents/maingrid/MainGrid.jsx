@@ -38,34 +38,32 @@ const MainGrid = () => {
   };
 
   return (
-    <div className="main-grid">
-      <div className="folder-grid">
-        <div className="folder-grid__header">
-          <span className="folder-grid__title">아카이브폴더</span>
-        </div>
-
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-          modifiers={[restrictToParentElement]}
-        >
-          <SortableContext
-            items={folders.map((f) => f.id)}
-            strategy={rectSortingStrategy}
-          >
-            <div className="folder-grid__items">
-              {folders.map((folder) => (
-                <SortableFolderItem
-                  key={folder.id}
-                  id={folder.id}
-                  folder={folder}
-                />
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
+    <div className="folder-grid">
+      <div className="folder-grid__header">
+        <span className="folder-grid__title">아카이브폴더</span>
       </div>
+
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+        modifiers={[restrictToParentElement]}
+      >
+        <SortableContext
+          items={folders.map((f) => f.id)}
+          strategy={rectSortingStrategy}
+        >
+          <div className="folder-grid__items">
+            {folders.map((folder) => (
+              <SortableFolderItem
+                key={folder.id}
+                id={folder.id}
+                folder={folder}
+              />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
     </div>
   );
 };

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "./FolderList.scss";
 import Dialog from "../../common/dialog/Dialog";
 import useEditableInput from "../../../hooks/useEditableInput";
+import useDialog from "../../../hooks/useDialog";
 import { isDuplicateFolderName } from "../../../utils/validation";
 import { GoPencil } from "react-icons/go";
 import { IoCheckmark } from "react-icons/io5";
@@ -19,7 +20,8 @@ const FolderListItem = ({
 }) => {
   const { inputValue, setInputValue, originalValue, isModified, commitValue } =
     useEditableInput(name);
-  const [showDialog, setShowDialog] = useState(false); // 중복 경고창
+
+  const { showDialog } = useDialog(); // 중복 경고창
 
   // 중복 여부 체크
   const isDuplicate = isDuplicateFolderName(
@@ -34,7 +36,13 @@ const FolderListItem = ({
     if (inputValue.trim() === "") return;
     // 중복된 경우
     if (isDuplicate) {
-      setShowDialog(true);
+      showDialog({
+        title: "폴더 생성 중복",
+        message: "기존의 폴더명과 중복되어 생성이 불가능합니다.",
+        subMessage: "폴더명을 변경해 주세요.",
+        confirmText: "확인",
+      });
+
       return;
     }
     commitValue(inputValue); // 저장된 이름 갱신
@@ -69,17 +77,6 @@ const FolderListItem = ({
           <span className="folder-item__name">{originalValue}</span>
           <GoPencil className="folder-item__icon" onClick={onStartEdit} />
         </>
-      )}
-
-      {/* 이름 중복 경고 Dialog */}
-      {showDialog && (
-        <Dialog
-          title="폴더 생성 중복"
-          message="기존의 폴더명과 중복되어 생성이 불가능합니다."
-          subMessage="폴더명을 변경해 주세요."
-          confirmText="확인"
-          onConfirm={() => setShowDialog(false)}
-        />
       )}
     </div>
   );
