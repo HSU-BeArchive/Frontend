@@ -1,0 +1,118 @@
+@use "../../../styles/variables" as *;
+
+.archive-board-wrapper {
+  width: 76.35vw; // 1466px
+  height: 41.67vw; // 800px
+  overflow-y: auto;
+  background-color: $color-white;
+  box-shadow: -0.26vw 0 0.42vw 0 rgba(217, 217, 217, 0.5);
+
+  &::-webkit-scrollbar {
+    width: 0.26vw; // 5px
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $gray-color2;
+    border-radius: 1.04vw; // 20px
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+}
+
+.archive-board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.56vw 1.04vw; // 30px 20px
+
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: $color-white;
+
+  .archive-board-title {
+    font-size: 1.04vw; // 20px
+    font-weight: 600;
+    color: $gray-color3;
+  }
+
+  .archive-board-buttons {
+    display: flex;
+    gap: 1.1vw; // 21px
+    margin-right: 2.45vw; //47px
+  }
+}
+
+.archive-board {
+  display: grid;
+  grid-template-columns: repeat(4, 15.63vw); // 300px
+  gap: 4.17vw 2.34vw; // 80px 45px
+  justify-content: center;
+  margin-bottom: 2.5vw;
+}
+
+.archive-card {
+  background-color: transparent;
+  width: 15.63vw; // 300px
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.94vw; // 18px
+  position: relative;
+
+  .card-thumbnail {
+    width: 100%;
+    height: 11.46vw; // 220px
+    background-color: $gray-color1;
+    border-radius: 1.04vw; // 20px
+    position: relative;
+  }
+
+  .delete-button {
+    position: absolute;
+    right: 1.04vw; // 20px
+    top: 1.04vw;
+    border: none;
+    background: none;
+    width: 1.3vw; // 25px
+    height: 1.3vw ;
+    padding: 0;
+    cursor: pointer;
+    color: #262626;
+  }
+  
+  .card-name {
+    width: 100%;
+    height: 2.86vw; // 55px
+    background-color: $gray-color1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.04vw; // 20px
+    border-radius: 0.78vw; // 15px
+  }
+}
+
+.archive-btn {
+  border-radius: 1.56vw;  // 30px
+  font-size: 0.89vw;      // 17px
+  font-weight: 600;
+  border: 2px solid $gray-color2;
+  background-color: transparent;
+  color: $gray-color3;
+  cursor: pointer;
+
+  &:hover {
+    color: #262626;
+    border: 2px solid $gray-color3;
+  }
+
+  &:active {
+    color: #007bff;
+    border-color: transparent;
+    background-color: $background-color2;
+  }
+}
