@@ -69,10 +69,14 @@
     top: 1.04vw;
     border: none;
     background: none;
-    font-size: 1.3vw; // 약 25px
+    width: 1.3vw; // 25px
+    height: 1.3vw ;
+    padding: 0;
     cursor: pointer;
     color: #262626;
+
   }
+  
 
   .card-name {
     width: 100%;
