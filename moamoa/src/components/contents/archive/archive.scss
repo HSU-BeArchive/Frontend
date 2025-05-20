@@ -35,6 +35,7 @@
   .archive-board-buttons {
     display: flex;
     gap: 1.1vw; // 21px
+    margin-right: 2.45vw; //47px
   }
 }
 
@@ -86,3 +87,23 @@
   }
 }
 
+.archive-btn {
+  border-radius: 1.56vw;  // 30px
+  font-size: 0.89vw;      // 17px
+  font-weight: 600;
+  border: 2px solid $gray-color2;
+  background-color: transparent;
+  color: $gray-color2;
+  cursor: pointer;
+
+  &:hover {
+    color: #262626;
+    border: 2px solid $gray-color3;
+  }
+
+  &:active {
+    color: #007bff;
+    border-color: transparent;
+    background-color: $background-color2;
+  }
+}
