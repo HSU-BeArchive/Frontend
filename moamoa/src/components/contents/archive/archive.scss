@@ -31,7 +31,7 @@
   top: 0;
   z-index: 10;
   background-color: $color-white;
-  
+
   .archive-board-title {
     font-size: 1.04vw; // 20px
     font-weight: 600;
@@ -103,7 +103,7 @@
   font-weight: 600;
   border: 2px solid $gray-color2;
   background-color: transparent;
-  color: $gray-color2;
+  color: $gray-color3;
   cursor: pointer;
 
   &:hover {
