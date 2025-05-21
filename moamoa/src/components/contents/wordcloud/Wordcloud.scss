@@ -1,0 +1,37 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as m;
+
+.wordcloud-zip {
+  width: 76.35vw; // 1466px
+  height: 41.67vw; // 800px
+  background-color: $color-white;
+  box-shadow: -0.26vw 0px 0.42vw 0px $gray-color1; // 그림자
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: $color-white; // 고정 요소 배경
+    padding: 1.56vw 1.04vw; // 30px 20px
+
+    .wordcloud-zip__title {
+      color: $gray-color3;
+      font-size: 1.04vw; // 20px
+      font-weight: 600;
+    }
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .wordcloud-zip__words {
+      width: 72.5vw;
+      height: 35.5vw;
+      background-color: rgb(194, 255, 255);
+    }
+  }
+}
