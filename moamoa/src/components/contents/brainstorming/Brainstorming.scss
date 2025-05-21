@@ -49,25 +49,26 @@
   &__reference {
     width: 17.19vw;
     height: 2.03vw; // 39px
+    font-size: 0.94vw; // 28px
     border-bottom: 0.26vw solid $main-color1;
+    padding-left: 0.7vw;
     @include m.flex-center;
     gap: 0.52vw;
 
     &-name {
       width: 100%;
-      height: 100%;
-      margin-left: 0.78vw;
-      font-size: 1.46vw; // 28px
       font-weight: 600;
       color: #262626;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; // 넘치면 ...으로
     }
 
     &-input {
       flex-grow: 1;
       width: 100%;
       height: 100%;
-      font-size: 1.46vw;
-      font-weight: 600;
+      font-weight: 500;
       color: #262626;
       background: transparent;
       border: none;
