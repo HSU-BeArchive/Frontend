@@ -1,6 +1,13 @@
 @use "../../../styles/variables" as *;
 @use "../../../styles/mixins" as m;
 
+@font-face {
+  font-family: "HakgyoansimDunggeunmisoTTF-B";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2")
+    format("woff2");
+  font-weight: 700;
+}
+
 .wordcloud-zip {
   width: 76.35vw; // 1466px
   height: 41.67vw; // 800px
@@ -31,7 +38,7 @@
     .wordcloud-zip__words {
       width: 72.5vw;
       height: 35.5vw;
-      background-color: rgb(194, 255, 255);
+      position: relative;
     }
   }
 }
