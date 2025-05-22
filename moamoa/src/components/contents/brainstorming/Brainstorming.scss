@@ -1,0 +1,262 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as m;
+
+// Brainstorming.jsx
+.brainstorming {
+  display: flex;
+  flex-direction: column;
+
+  background-color: $color-white;
+  width: 76.35vw;
+  height: 41.67vw;
+
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: $color-white;
+    padding: 1.56vw 1.04vw; // 30px 20px
+
+    .brainstorming__title {
+      color: $gray-color3;
+      font-size: 1.04vw; // 20px
+      font-weight: 600;
+    }
+  }
+
+  &__chat {
+    @include m.flex-center;
+    justify-content: center;
+    gap: 3.39vw;
+  }
+}
+
+// ReferenceInfo.jsx
+.ref-info {
+  width: 17.19vw; // 330px
+  display: flex;
+  flex-direction: column;
+  gap: 1.04vw; // 20px
+
+  &__image > img {
+    width: 17.19vw;
+    height: 15.99vw; // 307px
+    border: 0.31vw solid $gray-color1; // 6px
+    border-radius: 1.04vw; // 20px
+    object-fit: fill; // 또는 cover
+  }
+
+  &__reference {
+    width: 17.19vw;
+    height: 2.03vw; // 39px
+    font-size: 0.94vw; // 28px
+    border-bottom: 0.26vw solid $main-color1;
+    padding-left: 0.7vw;
+    @include m.flex-center;
+    gap: 0.52vw;
+
+    &-name {
+      width: 100%;
+      font-weight: 600;
+      color: #262626;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; // 넘치면 ...으로
+    }
+
+    &-input {
+      flex-grow: 1;
+      width: 100%;
+      height: 100%;
+      font-weight: 500;
+      color: #262626;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 0;
+
+      &::placeholder {
+        color: $gray-color2;
+      }
+
+      &:focus {
+        outline: none;
+        border: none;
+      }
+    }
+
+    &-icon {
+      width: 1.46vw; // 28px
+      height: 1.46vw;
+      font-size: 1.3vw;
+      color: $gray-color3;
+      cursor: pointer;
+
+      &:hover {
+        color: #262626;
+      }
+
+      &--confirm {
+        color: $gray-color2;
+
+        &.active,
+        &:hover {
+          color: $main-color2;
+        }
+
+        &:active {
+          color: $main-color3;
+        }
+      }
+    }
+  }
+
+  &__memo {
+    width: 17.19vw;
+    height: 12.92vw; // 248px
+    background-color: $main-color1;
+    border-radius: 0.78vw; // 15px
+    display: flex;
+    flex-direction: column;
+    padding: 0.63vw; // 12px
+
+    &-title {
+      font-size: 1.3vw; // 25px
+      font-weight: 700;
+      color: $color-white;
+      margin-bottom: 0.52vw; // 10px
+    }
+
+    &-input {
+      font-family: "Pretendard", sans-serif;
+      background-color: $color-white;
+      line-height: 1.4;
+      width: 15.94vw; // 306px
+      height: 10.1vw; // 194px
+      border-radius: 0.52vw; // 10px
+      border: none;
+      resize: none;
+      padding: 0.52vw; // 10px
+      font-size: 1.04vw;
+      outline: none;
+
+      &::placeholder {
+        color: $gray-color2;
+      }
+
+      &:focus {
+        outline: none;
+        border: none;
+      }
+    }
+  }
+}
+
+// ChatArea.jsx
+.chat-area {
+  width: 48.85vw; // 938px
+  height: 33.65vw; // 646px
+  background-color: $background-color2;
+  border-radius: 1.3vw; // 25px
+  padding: 1.04vw; // 20px
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+
+  &__box {
+    width: 46.88vw; // 900px
+    height: 26.4vw; // 507px
+    background-color: $color-white;
+    border-radius: 0.78vw; // 15px
+    padding: 1.04vw;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  &__bubble {
+    display: inline-block;
+    max-width: 100%;
+    word-break: break-word; // 긴 단어 줄바꿈
+    border: 0.18vw solid $main-color1;
+    padding: 0.52vw; // 10px
+    border-radius: 0.52vw; // 10px
+    font-size: 1.04vw;
+    font-weight: 400;
+    color: $gray-color3;
+    line-height: 1.4;
+  }
+
+  &__input-wrapper {
+    width: 46.88vw; // 900px
+    height: 3.91vw; // 75px
+    background-color: $color-white;
+    border-radius: 0.78vw; // 15px
+    margin-top: 1.04vw; // 20px
+    padding: 0 1.5vw;
+    @include m.flex-center;
+    justify-content: center;
+  }
+
+  &__input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0.78vw; // 15px
+
+    font-size: 1.25vw; // 24px
+
+    &::placeholder {
+      color: $gray-color2;
+    }
+
+    &:focus {
+      outline: none;
+      border: none;
+      color: $gray-color3;
+    }
+  }
+
+  &__icon {
+    color: $gray-color2;
+
+    &:hover {
+      color: #262626;
+    }
+    &:active {
+      color: $main-color3;
+    }
+  }
+
+  &__intro {
+    @include m.flex-center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    gap: 3.65vw;
+
+    &-title {
+      font-size: 2.19vw; // 42px
+      color: #262626;
+      font-weight: 600;
+    }
+
+    &-button {
+      width: 9.38vw;
+      height: 2.34vw;
+      background-color: $main-color1;
+      border-radius: 0.78vw;
+      border: none;
+      color: $color-white;
+      font-size: 1.3vw;
+      font-weight: 600;
+
+      &:hover {
+        background-color: $main-color2;
+      }
+      &:active {
+        background-color: $main-color3;
+      }
+    }
+  }
+}

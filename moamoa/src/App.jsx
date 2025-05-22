@@ -6,9 +6,9 @@ import {
 import "./styles/global.scss";
 import LoginPage from "./pages/loginPage/LoginPage.jsx";
 import SignupPage from "./pages/signupPage/SignupPage.jsx";
-import MainPage from "./pages/mainPage/MainPage.jsx";
+import MainPage from "./pages/MainPage.jsx";
 import ArchivePage from "./pages/archivePage/ArchivePage.jsx";
-import BrainstormingPage from "./pages/brainstormingPage/BrainstormingPage.jsx";
+import BrainstormingPage from "./pages/BrainstormingPage.jsx";
 import WordcloudPage from "./pages/WordcloudPage.jsx";
 import NotFoundPage from "./pages/notfoundPage/NotFoundPage.jsx";
 import Layout from "./components/layout/Layout.jsx";
