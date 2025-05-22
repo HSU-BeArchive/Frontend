@@ -26,12 +26,12 @@
   &__items {
     flex: 1;
     overflow-y: auto;
-
+    padding-bottom: 1.56vw;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-items: center;
     align-items: start;
-    gap: 4.17vw 0px; // 80px 수직 간격
+    gap: 1.15vw 0px; // 22px 수직 간격
 
     // 스크롤 바
     &::-webkit-scrollbar {
