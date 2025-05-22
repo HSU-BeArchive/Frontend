@@ -1,0 +1,16 @@
+.account-input {
+  width: 21.88vw; // 420px
+  height: 2.86vw; // 55px
+  border-radius: 2.6vw; // 50px
+  background-color: #d9d9d980;
+  padding: 0.52vw 0.78vw; // 10px 15px
+  font-size: 0.94vw; // 18px
+  font-weight: 400;
+  color: #262626;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    color: #7b7b7b;
+  }
+}
