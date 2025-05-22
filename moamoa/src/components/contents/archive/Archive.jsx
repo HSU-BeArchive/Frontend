@@ -22,7 +22,10 @@ const Archive = () => {
         <div className="archive-board-title">아카이브 보드</div>
         <div className="archive-board-buttons">
           <BrainstormButton onClick={() => alert("브레인스토밍 시각화")} />
-          <UploadButton onClick={() => setShowUploadDialog(true)} />
+          <UploadButton
+            onClick={() => setShowUploadDialog(true)}
+            isActive={showUploadDialog}
+          />
         </div>
       </div>
 

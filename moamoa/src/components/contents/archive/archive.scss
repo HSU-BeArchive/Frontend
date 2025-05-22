@@ -110,7 +110,8 @@
     border: 2px solid $gray-color3;
   }
 
-  &:active {
+  &:active,
+  &.active {
     color: #007bff;
     border-color: transparent;
     background-color: $background-color2;
