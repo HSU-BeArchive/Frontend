@@ -13,4 +13,21 @@
   &::placeholder {
     color: #7b7b7b;
   }
+
+  &:focus {
+    background-color: #f5f5f5;
+    border: solid 0.08vw #d9d9d9;
+  }
+}
+
+.login-button {
+  background-color: #82cbff80;
+  border: none;
+  border-radius: 2.6vw; // 50px
+  color: #f5f5f5;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
