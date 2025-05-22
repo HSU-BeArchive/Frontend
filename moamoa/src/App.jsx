@@ -4,8 +4,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./styles/global.scss";
-import LoginPage from "./pages/loginPage/LoginPage.jsx";
-import SignupPage from "./pages/signupPage/SignupPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import SignupPage from "./pages/SignupPage.jsx";
 import MainPage from "./pages/mainPage/MainPage.jsx";
 import ArchivePage from "./pages/archivePage/ArchivePage.jsx";
 import BrainstormingPage from "./pages/brainstormingPage/BrainstormingPage.jsx";
