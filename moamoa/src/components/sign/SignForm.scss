@@ -1,31 +1,26 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as m;
+
 .login-form {
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  @include m.flex-column-center;
 
   &__inputs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    @include m.flex-column-center;
     gap: 2.34vw;
     margin-top: 2.45vw;
   }
 
   &__buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    @include m.flex-column-center;
     gap: 1.56vw;
   }
 
   &__error {
+    min-height: 1.15vw;
     font-size: 0.94vw;
     font-weight: 500;
-    color: #d60000;
-    margin: 0.89vw 0 2.86vw 0;
+    color: $error-color;
+    padding: 0.89vw 0 2.86vw 0;
   }
 }
