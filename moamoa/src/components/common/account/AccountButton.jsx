@@ -1,7 +1,15 @@
 import React from "react";
 import "./Account.scss";
 
-const AccountButton = ({ width, height, text, fSize, fWeight }) => {
+const AccountButton = ({
+  width,
+  height,
+  text,
+  fSize,
+  fWeight,
+  disabled,
+  type,
+}) => {
   return (
     <button
       className="login-button"
@@ -10,7 +18,10 @@ const AccountButton = ({ width, height, text, fSize, fWeight }) => {
         height: height,
         fontSize: fSize,
         fontWeight: fWeight,
+        backgroundColor: disabled ? "#82CBFF80" : "#82CBFF",
       }}
+      disabled={disabled} // 활성화 여부
+      type={type}
     >
       {text}
     </button>
