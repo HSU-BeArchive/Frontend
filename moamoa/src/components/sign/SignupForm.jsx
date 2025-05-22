@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
+import { useIdValidation } from "../../hooks/useIdValidation";
+import { usePwValidation } from "../../hooks/usePwValidation";
 import "./SignForm.scss";
 import AccountInput from "../common/account/AccountInput";
 import AccountButton from "../common/account/AccountButton";
@@ -16,52 +18,12 @@ const SignupForm = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
-  const [idValid, setIdValid] = useState(false); // 아이디 유효성
-  const [pwValid, setPwValid] = useState(false); // 비밀번호 유효성
-  const loginId = watch("loginId");
-
-  // 아이디 바뀌면 다시 검사
-  useEffect(() => {
-    setIdValid(false);
-    clearErrors("loginId");
-  }, [loginId, clearErrors]);
-
-  // 아이디 중복, 유효성 검사
-  const handleIdCheck = () => {
-    const id = watch("loginId");
-    const isDuplicate = id === "testuser"; // 중복 테스트
-    const isFormatValid = /^[A-Za-z\d]{4,}$/.test(id);
-
-    if (!isFormatValid) {
-      setError("loginId", {
-        type: "manual",
-        message: "영문과 숫자를 조합하여 4자리 이상 아이디를 입력해 주세요",
-      });
-      setIdValid(false);
-    } else if (isDuplicate) {
-      setError("loginId", {
-        type: "manual",
-        message: "이미 사용하고 있는 아이디입니다",
-      });
-      setIdValid(false);
-    } else {
-      clearErrors("loginId");
-      setIdValid(true);
-    }
-  };
-
-  // 비밀번호 유효성 검사
-  const checkPassword = (value) => {
-    const valid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(value);
-    setPwValid(valid);
-    if (valid) {
-      setPwValid(true);
-      return true;
-    } else {
-      setPwValid(false);
-      return "영문과 숫자를 조합하여 8자리 이상 비밀번호를 입력해 주세요";
-    }
-  };
+  const { idValid, handleIdCheck } = useIdValidation(
+    watch,
+    setError,
+    clearErrors
+  ); // 아이디 유효성
+  const { pwValid, checkPassword } = usePwValidation(); // 비밀번호 유효성
 
   // 회원 가입
   const onSubmit = (data) => {
