@@ -73,18 +73,29 @@
   justify-content: center;
   gap: 1.04vw; // 20px
 
-  .upload-title {
-    width: 27.6vw; // 530px
-    height: 2.03vw; // 39px
-    padding: 0 0.78vw; // 15px
-    border-bottom: 0.26vw solid #82CBFF; // 5px
-    color: #262626;
-    font-weight: 600;
-    font-size: 1.46vw; // 28px
-    line-height: 140%; // 39.2px
+  .upload-title-box {
     display: flex;
-    align-items: center;
-    justify-content: left;
+    flex-direction: column;
+
+    .upload-title-input {
+      width: 100%;
+      font-size: 1.46vw; // 28px
+      font-weight: 600;
+      border: none;
+      outline: none;
+      padding: 0 0.78vw; // 15px
+      margin: 0;
+      background-color: transparent;
+      color: #262626;
+      font-family: Pretendard;
+      line-height: 140%; // 39.2px
+    }
+
+    .underline {
+      height: 0.26vw; // 5px
+      width: 100%;
+      background-color: #82CBFF;
+    }
   }
 
   .upload-memo-box {
