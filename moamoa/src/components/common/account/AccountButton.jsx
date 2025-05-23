@@ -12,13 +12,12 @@ const AccountButton = ({
 }) => {
   return (
     <button
-      className="login-button"
+      className={`login-button ${disabled ? "disabled" : "enabled"}`}
       style={{
         width: width,
         height: height,
         fontSize: fSize,
         fontWeight: fWeight,
-        backgroundColor: disabled ? "#82CBFF80" : "#82CBFF",
       }}
       disabled={disabled} // 활성화 여부
       type={type}

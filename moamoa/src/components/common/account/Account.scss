@@ -74,4 +74,19 @@
 
   @include m.flex-center;
   justify-content: center;
+
+  &.enabled {
+    background-color: $main-color1;
+
+    &:hover {
+      background-color: $main-color2;
+    }
+    &:active {
+      background-color: $main-color3;
+    }
+  }
+
+  &.disabled {
+    background-color: #82cbff80;
+  }
 }
