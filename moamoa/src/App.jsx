@@ -9,7 +9,7 @@ import SignupPage from "./pages/signupPage/SignupPage.jsx";
 import MainPage from "./pages/MainPage.jsx";
 import ArchivePage from "./pages/archivePage/ArchivePage.jsx";
 import BrainstormingPage from "./pages/BrainstormingPage.jsx";
-import WordcloudPage from "./pages/wordcloudPage/WordcloudPage.jsx";
+import WordcloudPage from "./pages/WordcloudPage.jsx";
 import NotFoundPage from "./pages/notfoundPage/NotFoundPage.jsx";
 import Layout from "./components/layout/Layout.jsx";
 
