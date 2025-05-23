@@ -53,6 +53,14 @@
   margin-bottom: 2.5vw;
 }
 
+.empty-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.52vw; // 10px
+} 
+
 .archive-card {
   background-color: transparent;
   width: 15.63vw; // 300px

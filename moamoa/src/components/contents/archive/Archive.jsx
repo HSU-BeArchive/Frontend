@@ -3,6 +3,7 @@ import ArchiveCard from "./ArchiveCard";
 import BrainstormButton from "./BrainstormButton";
 import UploadButton from "./UploadButton";
 import UploadDialog from "./UploadDialog";
+import EmptyBoard from "./EmptyBoard";
 import "./archive.scss";
 
 const Archive = () => {
@@ -39,16 +40,20 @@ const Archive = () => {
         </div>
       </div>
 
-      <div className="archive-board">
-        {cards.map((card) => (
-          <ArchiveCard
-            key={card.id}
-            name={card.name.length > 13 ? `${card.name.slice(0, 13)}…` : card.name}
-            image={card.image}
-            onDelete={() => handleDelete(card.id)}
-          />
-        ))}
-      </div>
+      {cards.length === 0 ? (
+        <EmptyBoard />
+      ) : (
+        <div className="archive-board">
+          {cards.map((card) => (
+            <ArchiveCard
+              key={card.id}
+              name={card.name.length > 13 ? `${card.name.slice(0, 13)}…` : card.name}
+              image={card.image}
+              onDelete={() => handleDelete(card.id)}
+            />
+          ))}
+        </div>
+      )}
 
       {showUploadDialog && (
         <UploadDialog
