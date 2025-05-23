@@ -9,20 +9,21 @@ const Archive = () => {
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [cards, setCards] = useState([]);
 
-  const handleDelete = (index) => {
-    setCards((prev) => prev.filter((_, i) => i !== index));
+  const handleDelete = (id) => {
+    setCards((prev) => prev.filter((card) => card.id !== id));
   };
 
-  const handleUpload = (file, memo) => {
-    if (!file) return;
+  const handleUpload = (file, title, memo) => {
+    if (!file || !title.trim()) return;
 
-    const newCard = {
-      name: file.name,
-      previewUrl: URL.createObjectURL(file),
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCards((prev) => [
+        ...prev, { id: Date.now(), name: title, image: reader.result },
+      ]);
+      setShowUploadDialog(false);
     };
-
-    setCards((prev) => [...prev, newCard]);
-    setShowUploadDialog(false);
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -39,12 +40,12 @@ const Archive = () => {
       </div>
 
       <div className="archive-board">
-        {cards.map((card, index) => (
+        {cards.map((card) => (
           <ArchiveCard
-            key={index}
-            name={card.name}
-            previewUrl={card.previewUrl}
-            onDelete={() => handleDelete(index)}
+            key={card.id}
+            name={card.name.length > 13 ? `${card.name.slice(0, 13)}…` : card.name}
+            image={card.image}
+            onDelete={() => handleDelete(card.id)}
           />
         ))}
       </div>
