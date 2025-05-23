@@ -12,6 +12,7 @@ const AccountInput = forwardRef(
       showCheck,
       checkButton,
       onCheckClick,
+      hiddenIcon = false, // 아이콘 숨김
       ...props
     },
     ref
@@ -35,10 +36,10 @@ const AccountInput = forwardRef(
         )}
 
         {/* 중복, 유효성 검사 결과 아이콘 */}
-        {showCheck && (
+        {!hiddenIcon && showCheck && (
           <HiMiniCheckCircle className="check-icon" size="1.56vw" />
         )}
-        {showError && (
+        {!hiddenIcon && showError && (
           <HiExclamationCircle className="error-icon" size="1.56vw" />
         )}
       </div>
