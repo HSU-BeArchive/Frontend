@@ -1,26 +1,33 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import "./UploadDialog.scss";
 import uploadIcon from "../../../assets/images/archive-icon1.svg";
+import UploadDropzone from "./UploadDropzone";
 
 const UploadDialog = ({ onClose, onUpload }) => {
   const [memo, setMemo] = useState("");
-  const fileRef = useRef();
+  const [file, setFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  const handleFileSelect = (selectedFile) => {
+    setFile(selectedFile);
+    if (selectedFile) {
+      setPreviewUrl(URL.createObjectURL(selectedFile));
+    }
+  };
 
   return (
     <div className="upload-overlay">
       <div className="upload-box">
         <div className="upload-body">
-          {/* 왼쪽: 이미지 + 파일찾기 */}
           <div className="upload-left">
-            <img src={uploadIcon} alt="upload" />
-            <input type="file" ref={fileRef} hidden />
-            <button onClick={() => fileRef.current.click()}>파일찾기</button>
+            <UploadDropzone onFileSelect={handleFileSelect}>
+              <img src={previewUrl || uploadIcon} alt="preview"/>
+              <button>파일찾기</button>
+            </UploadDropzone>
           </div>
 
-          {/* 오른쪽: 제목 + 메모 */}
           <div className="upload-right">
             <div className="upload-title">레퍼런스 이름</div>
-
             <div className="upload-memo-box">
               <div className="upload-memo-label">아이디어 메모</div>
               <textarea
@@ -34,7 +41,7 @@ const UploadDialog = ({ onClose, onUpload }) => {
         </div>
 
         <div className="upload-actions">
-          <button className="btn" onClick={onUpload}>
+          <button className="btn" onClick={() => onUpload(file, memo)}>
             업로드
           </button>
           <button className="btn" onClick={onClose}>
