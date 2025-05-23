@@ -5,14 +5,23 @@ import UploadButton from "./UploadButton";
 import UploadDialog from "./UploadDialog";
 import "./archive.scss";
 
-const dummyData = Array(9).fill("레퍼런스 이름");
-
 const Archive = () => {
   const [showUploadDialog, setShowUploadDialog] = useState(false);
+  const [cards, setCards] = useState([]);
 
-  const handleDelete = (index) => alert(`${index + 1}번 카드 삭제`);
-  const handleUpload = () => {
-    alert("업로드 완료");
+  const handleDelete = (index) => {
+    setCards((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleUpload = (file, memo) => {
+    if (!file) return;
+
+    const newCard = {
+      name: file.name,
+      previewUrl: URL.createObjectURL(file),
+    };
+
+    setCards((prev) => [...prev, newCard]);
     setShowUploadDialog(false);
   };
 
@@ -21,7 +30,7 @@ const Archive = () => {
       <div className="archive-board-header">
         <div className="archive-board-title">아카이브 보드</div>
         <div className="archive-board-buttons">
-          <BrainstormButton onClick={() => alert("브레인스토밍 시각화")} />
+          <BrainstormButton onClick={() => {}} />
           <UploadButton
             onClick={() => setShowUploadDialog(true)}
             isActive={showUploadDialog}
@@ -30,10 +39,11 @@ const Archive = () => {
       </div>
 
       <div className="archive-board">
-        {dummyData.map((name, index) => (
+        {cards.map((card, index) => (
           <ArchiveCard
             key={index}
-            name={name}
+            name={card.name}
+            previewUrl={card.previewUrl}
             onDelete={() => handleDelete(index)}
           />
         ))}
