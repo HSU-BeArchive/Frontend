@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useLoginError } from "../../hooks/useLoginError";
+import loginUserApi from "../../api/user/loginUserApi";
 import AccountInput from "../common/account/AccountInput";
 import AccountButton from "../common/account/AccountButton";
 import Logo from "../layout/header/Logo";
@@ -15,22 +17,23 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
+  const navigate = useNavigate();
   const { loginError, showError, clearError } = useLoginError(setError); // 에러 처리
   const loginId = watch("loginId");
   const password = watch("password");
 
-  const onSubmit = (data) => {
-    // 로그인 유효성 예시
-    const isCorrect = data.loginId === "test1" && data.password === "test1111";
+  const onSubmit = async (data) => {
+    clearError();
+    // 로그인 api 요청
+    const result = await loginUserApi(data.loginId, data.password);
 
-    if (!isCorrect) {
+    if (!result) {
       showError();
       return;
     }
-    clearError();
-
-    // 백 연동 -> 메인 페이지로 이동 예정
-    alert("로그인 성공");
+    console.log(`로그인ID: ${result}`);
+    localStorage.setItem("loginId", result); // 로컬스토리지에 Id 저장
+    navigate("/main"); // 메인페이지로 이동
   };
 
   return (
@@ -53,11 +56,7 @@ const LoginForm = () => {
         />
       </div>
       {/* 에러 메세지 */}
-      {
-        <div className="login-form__error">
-          {errors.loginId || errors.password ? loginError : "\u00A0"}
-        </div>
-      }
+      {<div className="login-form__error">{loginError || "\u00A0"}</div>}
 
       {/* 로그인, 회원가입 버튼 */}
       <div className="login-form__buttons">
@@ -76,6 +75,8 @@ const LoginForm = () => {
           text="회원가입"
           fSize="1.3vw"
           fWeight={500}
+          type="button"
+          onClick={() => navigate("/signup")}
         />
       </div>
     </form>
