@@ -16,7 +16,7 @@ const signupUserApi = async (loginId, password) => {
       console.warn("중복된 아이디:", message);
       return null;
     } else {
-      console.warn("회원가입 실패:", response.data.message);
+      console.warn("회원가입 실패:", message);
       return null;
     }
   } catch (e) {
