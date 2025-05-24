@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useIdValidation } from "../../hooks/useIdValidation";
 import { usePwValidation } from "../../hooks/usePwValidation";
+import signupUserApi from "../../api/user/signupUserApi";
 import "./SignForm.scss";
 import AccountInput from "../common/account/AccountInput";
 import AccountButton from "../common/account/AccountButton";
@@ -9,6 +11,8 @@ import Logo from "../layout/header/Logo";
 import SIGNLOGO from "../../assets/images/logo-sign.svg";
 
 const SignupForm = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -26,7 +30,7 @@ const SignupForm = () => {
   const { pwValid, checkPassword } = usePwValidation(); // 비밀번호 유효성
 
   // 회원 가입
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (!idValid) {
       setError("loginId", {
         type: "manual",
@@ -35,7 +39,16 @@ const SignupForm = () => {
       return;
     }
     // 백 연동 -> 로그인 페이지로 이동 예정
-    alert("회원가입 성공: " + JSON.stringify(data));
+    const userId = await signupUserApi(data.loginId, data.password);
+    if (!userId) {
+      setError("loginId", {
+        type: "manual",
+        message: "이미 사용하고 있는 아이디입니다",
+      });
+      return;
+    }
+    alert("환영합니다!");
+    navigate("/login"); // 로그인페이지로 이동
   };
 
   return (
