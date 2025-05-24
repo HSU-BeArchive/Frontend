@@ -38,7 +38,7 @@ const SignupForm = () => {
       });
       return;
     }
-    // 백 연동 -> 로그인 페이지로 이동 예정
+    // 회원가입 api 요청
     const userId = await signupUserApi(data.loginId, data.password);
     if (!userId) {
       setError("loginId", {

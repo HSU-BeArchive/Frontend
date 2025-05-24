@@ -4,19 +4,24 @@ import defaultInstance from "../utils/instance";
 const signupUserApi = async (loginId, password) => {
   try {
     const response = await defaultInstance.post(`/user/signup`, {
-      loginId: loginId,
-      password: password,
+      loginId,
+      password,
     });
+    const { httpStatus, isSuccess, data, message } = response.data;
 
-    if (response.data.httpStatus === 201 && response.data.isSuccess) {
+    if (httpStatus === 201 && isSuccess) {
       console.log("회원가입 성공");
-      return response.data.data.userId;
+      return data.userId;
+    } else if (httpStatus === 409 && !isSuccess) {
+      console.warn("중복된 아이디:", message);
+      return null;
     } else {
       console.warn("회원가입 실패:", response.data.message);
       return null;
     }
   } catch (e) {
     console.error(e);
+    return null;
   }
 };
 
