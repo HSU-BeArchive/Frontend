@@ -22,8 +22,8 @@ const Archive = () => {
         setCards(
           refs.map((ref) => ({
             referenceId: ref.referenceId,
-            name: ref.referenceName,
-            image: ref.imgUrl,
+            referenceName: ref.referenceName,
+            referenceImgUrl: ref.referenceImgUrl,
           }))
         );
       }
@@ -48,8 +48,8 @@ const Archive = () => {
         ...prev,
         {
           referenceId: result.referenceId,
-          name: result.referenceName,
-          image: result.imgUrl,
+          referenceName: result.referenceName,
+          referenceImgUrl: result.referenceImgUrl,
         },
       ]);
       setShowUploadDialog(false);
@@ -79,9 +79,11 @@ const Archive = () => {
             <ArchiveCard
               key={card.referenceId}
               name={
-                card.name.length > 13 ? `${card.name.slice(0, 13)}…` : card.name
+                card.referenceName.length > 13
+                  ? `${card.referenceName.slice(0, 13)}…`
+                  : card.referenceName
               }
-              image={card.image}
+              image={card.referenceImgUrl}
               onDelete={() => handleDelete(card.id)}
             />
           ))}
