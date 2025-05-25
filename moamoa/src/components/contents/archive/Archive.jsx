@@ -22,7 +22,7 @@ const Archive = () => {
         setCards(
           refs.map((ref) => ({
             referenceId: ref.referenceId,
-            name: ref.name,
+            name: ref.referenceName,
             image: ref.imgUrl,
           }))
         );
@@ -48,7 +48,7 @@ const Archive = () => {
         ...prev,
         {
           referenceId: result.referenceId,
-          name: result.name,
+          name: result.referenceName,
           image: result.imgUrl,
         },
       ]);
