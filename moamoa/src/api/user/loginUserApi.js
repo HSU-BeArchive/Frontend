@@ -11,7 +11,10 @@ const loginUserApi = async (loginId, password) => {
 
     if (httpStatus === 200 && isSuccess) {
       console.log("로그인 성공");
-      return data.loginId;
+      return {
+        loginId: data.loginId,
+        userId: data.userId,
+      };
     } else if ((httpStatus === 401 || httpStatus === 404) && !isSuccess) {
       console.warn("아이디 or 비밀번호 오류", message);
       return null;

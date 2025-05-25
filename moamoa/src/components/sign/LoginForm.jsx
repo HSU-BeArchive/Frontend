@@ -31,8 +31,11 @@ const LoginForm = () => {
       showError();
       return;
     }
-    console.log(`로그인ID: ${result}`);
-    localStorage.setItem("loginId", result); // 로컬스토리지에 Id 저장
+
+    // 로컬스토리지에 loginId, userId 저장
+    localStorage.setItem("loginId", result.loginId);
+    localStorage.setItem("userId", result.userId);
+
     navigate("/main"); // 메인페이지로 이동
   };
 
