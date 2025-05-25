@@ -1,0 +1,92 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as m;
+
+.account-input__wrapper {
+  position: relative;
+}
+
+.check-button {
+  width: 4.37vw;
+  height: 1.77vw;
+  position: absolute;
+  right: 0.78vw;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.78vw;
+  border: none;
+  border-radius: 1.3vw;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  color: #000000;
+}
+
+.check-icon,
+.error-icon {
+  position: absolute;
+  top: 50%;
+  right: -2vw;
+  transform: translateY(-50%);
+  font-size: 1.3vw;
+}
+
+.check-icon {
+  color: $check-color;
+}
+.error-icon {
+  color: $error-color;
+}
+
+.account-input {
+  width: 21.88vw; // 420px
+  height: 2.86vw; // 55px
+  border-radius: 2.6vw; // 50px
+  background-color: $gray-color1;
+  padding: 0.52vw 0.78vw; // 10px 15px
+  font-size: 0.94vw; // 18px
+  font-weight: 400;
+  color: #262626;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    color: $gray-color3;
+  }
+
+  &:focus {
+    background-color: $background-color2;
+    border: solid 0.08vw $gray-color2;
+  }
+
+  &.input-success {
+    background-color: $gray-color2;
+  }
+
+  &.input-error {
+    background-color: #d600004d;
+  }
+}
+
+.login-button {
+  border: none;
+  border-radius: 2.6vw; // 50px
+  color: $background-color2;
+  cursor: pointer;
+
+  @include m.flex-center;
+  justify-content: center;
+
+  &.enabled {
+    background-color: $main-color1;
+
+    &:hover {
+      background-color: $main-color2;
+    }
+    &:active {
+      background-color: $main-color3;
+    }
+  }
+
+  &.disabled {
+    background-color: #82cbff80;
+  }
+}
