@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ArchiveCard from "./ArchiveCard";
 import BrainstormButton from "./BrainstormButton";
 import UploadButton from "./UploadButton";
@@ -12,6 +12,7 @@ import "./archive.scss";
 
 const Archive = () => {
   const { folderId } = useParams();
+  const navigate = useNavigate();
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [cards, setCards] = useState([]);
 
@@ -94,6 +95,12 @@ const Archive = () => {
               }
               image={card.referenceImgUrl}
               onDelete={() => handleDelete(card.referenceId)}
+              onClick={
+                () =>
+                  navigate(
+                    `/archive/${folderId}/brainstorm/${card.referenceId}`
+                  ) // 브레인
+              }
             />
           ))}
         </div>
