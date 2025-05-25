@@ -16,11 +16,12 @@ const ReferenceInfo = ({ data }) => {
     }
   }, [data]);
 
+  // 레퍼런스 이름 수정
   const handleSave = () => {
     if (name.trim() !== "") {
       setIsEditing(false);
-      // 서버 저장  추가 예정
-      //console.log("저장됨:", { name, memo });
+      // 서버 저장 추가 예정
+      //console.log("수정됨:", { name });
     }
   };
 
@@ -62,9 +63,8 @@ const ReferenceInfo = ({ data }) => {
         <textarea
           className="ref-info__memo-input"
           value={memo}
-          onChange={(e) => setMemo(e.target.value)}
           placeholder="텍스트를 입력하세요."
-          disabled={!isEditing}
+          readOnly
         />
       </div>
     </div>
