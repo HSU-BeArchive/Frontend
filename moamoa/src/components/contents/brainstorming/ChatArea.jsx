@@ -14,33 +14,28 @@ const ChatArea = ({ started, loading, messages, inputDisabled, onStart }) => {
               시작하기
             </button>
           </div>
+        ) : loading ? (
+          <LoadingSpinner
+            message={"AI가 레퍼런스를 분석하여\n브레인스토밍을 준비하고 있어요"}
+          />
         ) : (
-          <>
-            {loading ? (
-              <LoadingSpinner
-                message={
-                  "AI가 레퍼런스를 분석하여\n브레인스토밍을 준비하고 있어요"
-                }
-              />
-            ) : (
-              messages.map((msg, i) => (
-                <div className="chat-area__bubble" key={i}>
-                  {msg}
-                </div>
-              ))
-            )}
-            <div className="chat-area__input-wrapper">
-              <input
-                className="chat-area__input"
-                type="text"
-                placeholder="답변을 입력하세요."
-                disabled={inputDisabled}
-              />
-              <HiOutlineArrowCircleUp
-                className="chat-area__icon"
-                size="1.46vw"
-              />
+          messages.map((msg, i) => (
+            <div className="chat-area__bubble" key={i}>
+              {msg}
             </div>
+          ))
+        )}
+      </div>
+      <div className="chat-area__input-wrapper">
+        {started && (
+          <>
+            <input
+              className="chat-area__input"
+              type="text"
+              placeholder="답변을 입력하세요."
+              disabled={inputDisabled}
+            />
+            <HiOutlineArrowCircleUp className="chat-area__icon" size="1.46vw" />
           </>
         )}
       </div>
