@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import ArchiveCard from "./ArchiveCard";
 import BrainstormButton from "./BrainstormButton";
 import UploadButton from "./UploadButton";
 import UploadDialog from "./UploadDialog";
 import EmptyBoard from "./EmptyBoard";
+import createRefApi from "../../../api/archive/createRefApi";
 import "./archive.scss";
 
 const Archive = () => {
+  const { folderId } = useParams();
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [cards, setCards] = useState([]);
 
@@ -14,18 +17,26 @@ const Archive = () => {
     setCards((prev) => prev.filter((card) => card.id !== id));
   };
 
-  const handleUpload = (file, title, memo) => {
+  // 레퍼런스 생성
+  const handleUpload = async (file, title, memo) => {
     if (!file || !title.trim() || !memo.trim()) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
+    // 레퍼런스 생성 api 호출
+    const result = await createRefApi(title, memo, file, folderId);
+
+    if (result) {
       setCards((prev) => [
         ...prev,
-        { id: Date.now(), name: title, image: reader.result },
+        {
+          id: result.referenceId,
+          name: result.name,
+          image: result.imgUrl,
+        },
       ]);
       setShowUploadDialog(false);
-    };
-    reader.readAsDataURL(file);
+    } else {
+      alert("레퍼런스 업로드 실패..");
+    }
   };
 
   return (
