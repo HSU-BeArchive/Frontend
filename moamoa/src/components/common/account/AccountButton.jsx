@@ -9,6 +9,7 @@ const AccountButton = ({
   fWeight,
   disabled,
   type,
+  onClick,
 }) => {
   return (
     <button
@@ -21,6 +22,7 @@ const AccountButton = ({
       }}
       disabled={disabled} // 활성화 여부
       type={type}
+      onClick={onClick}
     >
       {text}
     </button>
