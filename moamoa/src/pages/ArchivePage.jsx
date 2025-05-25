@@ -1,5 +1,5 @@
 import React from "react";
-import ArchiveBoard from "../../components/contents/archive/Archive";
+import ArchiveBoard from "../components/contents/archive/Archive";
 
 const ArchivePage = () => {
   return (

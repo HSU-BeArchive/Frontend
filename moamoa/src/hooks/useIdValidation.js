@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { validateUserId } from "../utils/validation";
+import checkIdApi from "../api/user/checkIdApi";
 
 // 아이디 유효성 검사
 export const useIdValidation = (watch, setError, clearErrors) => {
@@ -12,9 +13,8 @@ export const useIdValidation = (watch, setError, clearErrors) => {
     clearErrors("loginId");
   }, [loginId, clearErrors]);
 
-  // 중복 확인 핸들러
-  const handleIdCheck = () => {
-    const isDuplicate = loginId === "testuser"; // 중복 예시 데이터
+  // 에러 확인 핸들러
+  const handleIdCheck = async () => {
     const isFormatValid = validateUserId(loginId);
 
     if (!isFormatValid) {
@@ -23,7 +23,12 @@ export const useIdValidation = (watch, setError, clearErrors) => {
         message: "영문과 숫자를 조합하여 4자리 이상 아이디를 입력해 주세요",
       });
       setIdValid(false);
-    } else if (isDuplicate) {
+      return;
+    }
+
+    const result = await checkIdApi(loginId);
+
+    if (result === false) {
       setError("loginId", {
         type: "manual",
         message: "이미 사용하고 있는 아이디입니다",

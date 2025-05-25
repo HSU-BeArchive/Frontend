@@ -7,7 +7,7 @@ import "./styles/global.scss";
 import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import MainPage from "./pages/MainPage.jsx";
-import ArchivePage from "./pages/archivePage/ArchivePage.jsx";
+import ArchivePage from "./pages/ArchivePage.jsx";
 import BrainstormingPage from "./pages/BrainstormingPage.jsx";
 import WordcloudPage from "./pages/WordcloudPage.jsx";
 import NotFoundPage from "./pages/notfoundPage/NotFoundPage.jsx";
