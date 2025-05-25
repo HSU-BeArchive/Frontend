@@ -7,6 +7,7 @@ import UploadDialog from "./UploadDialog";
 import EmptyBoard from "./EmptyBoard";
 import createRefApi from "../../../api/archive/createRefApi";
 import getAllRefsApi from "../../../api/archive/getAllRefsApi";
+import deleteRefApi from "../../../api/archive/deleteRefApi";
 import "./archive.scss";
 
 const Archive = () => {
@@ -32,8 +33,16 @@ const Archive = () => {
     fetchCards();
   }, [folderId]);
 
-  const handleDelete = (id) => {
-    setCards((prev) => prev.filter((card) => card.id !== id));
+  // 레퍼런스 삭제
+  const handleDelete = async (referenceId) => {
+    const isdeleted = await deleteRefApi(folderId, referenceId);
+    if (isdeleted) {
+      setCards((prev) =>
+        prev.filter((card) => card.referenceId !== referenceId)
+      );
+    } else {
+      alert("레퍼런스 삭제 실패..");
+    }
   };
 
   // 레퍼런스 생성
@@ -84,7 +93,7 @@ const Archive = () => {
                   : card.referenceName
               }
               image={card.referenceImgUrl}
-              onDelete={() => handleDelete(card.id)}
+              onDelete={() => handleDelete(card.referenceId)}
             />
           ))}
         </div>
