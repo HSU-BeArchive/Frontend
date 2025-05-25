@@ -15,12 +15,13 @@ const Archive = () => {
   };
 
   const handleUpload = (file, title, memo) => {
-    if (!file || !title.trim()) return;
+    if (!file || !title.trim() || !memo.trim()) return;
 
     const reader = new FileReader();
     reader.onload = () => {
       setCards((prev) => [
-        ...prev, { id: Date.now(), name: title, image: reader.result },
+        ...prev,
+        { id: Date.now(), name: title, image: reader.result },
       ]);
       setShowUploadDialog(false);
     };
@@ -47,7 +48,9 @@ const Archive = () => {
           {cards.map((card) => (
             <ArchiveCard
               key={card.id}
-              name={card.name.length > 13 ? `${card.name.slice(0, 13)}…` : card.name}
+              name={
+                card.name.length > 13 ? `${card.name.slice(0, 13)}…` : card.name
+              }
               image={card.image}
               onDelete={() => handleDelete(card.id)}
             />
