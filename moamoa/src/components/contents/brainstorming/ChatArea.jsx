@@ -1,16 +1,33 @@
-import React from "react";
-
+import React, { useState } from "react";
 import LoadingSpinner from "../../common/spinner/LoadingSpinner";
 import { HiOutlineArrowCircleUp } from "react-icons/hi";
 
-const ChatArea = ({ started, loading, messages, inputDisabled, onStart }) => {
+const ChatArea = () => {
+  const [started, setStarted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [messages, setMessages] = useState([]);
+
+  // AI 채팅 시작
+  const startConversation = () => {
+    setStarted(true);
+    setLoading(true);
+    setTimeout(() => {
+      // 테스트용
+      setMessages(["AI가 처음 하는 말."]);
+      setLoading(false);
+    }, 2000);
+  };
+
   return (
     <div className="chat-area">
       <div className="chat-area__box">
         {!started ? (
           <div className="chat-area__intro">
             <p className="chat-area__intro-title">브레인스토밍 대화</p>
-            <button className="chat-area__intro-button" onClick={onStart}>
+            <button
+              className="chat-area__intro-button"
+              onClick={startConversation}
+            >
               시작하기
             </button>
           </div>
@@ -33,7 +50,7 @@ const ChatArea = ({ started, loading, messages, inputDisabled, onStart }) => {
               className="chat-area__input"
               type="text"
               placeholder="답변을 입력하세요."
-              disabled={inputDisabled}
+              disabled={loading}
             />
             <HiOutlineArrowCircleUp className="chat-area__icon" size="1.46vw" />
           </>
