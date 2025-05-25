@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { validateUserId } from "../utils/validation";
-import signupUserApi from "../api/user/signupUserApi";
+import checkIdApi from "../api/user/checkIdApi";
 
 // 아이디 유효성 검사
 export const useIdValidation = (watch, setError, clearErrors) => {
@@ -26,9 +26,9 @@ export const useIdValidation = (watch, setError, clearErrors) => {
       return;
     }
 
-    const result = await signupUserApi(loginId, "0000");
+    const result = await checkIdApi(loginId);
 
-    if (result === null) {
+    if (result === false) {
       setError("loginId", {
         type: "manual",
         message: "이미 사용하고 있는 아이디입니다",
