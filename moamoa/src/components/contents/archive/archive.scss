@@ -53,6 +53,19 @@
   margin-bottom: 2.5vw;
 }
 
+.empty-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.52vw; // 10px
+
+  img {
+    width: 23.70vw;
+    height: 24.58vw;
+  }
+} 
+
 .archive-card {
   background-color: transparent;
   width: 15.63vw; // 300px
@@ -65,22 +78,32 @@
   .card-thumbnail {
     width: 100%;
     height: 11.46vw; // 220px
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: $gray-color1;
     border-radius: 1.04vw; // 20px
     position: relative;
-  }
+    overflow: hidden;
 
-  .delete-button {
-    position: absolute;
-    right: 1.04vw; // 20px
-    top: 1.04vw;
-    border: none;
-    background: none;
-    width: 1.3vw; // 25px
-    height: 1.3vw ;
-    padding: 0;
-    cursor: pointer;
-    color: #262626;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .delete-button {
+      position: absolute;
+      right: 1.04vw; //20px
+      top: 1.04vw;
+      border: none;
+      background: none;
+      width: 1.3vw; //25px
+      height: 1.3vw;
+      padding: 0;
+      cursor: pointer;
+      color: #262626;
+    }
   }
   
   .card-name {
@@ -110,7 +133,8 @@
     border: 2px solid $gray-color3;
   }
 
-  &:active {
+  &:active,
+  &.active {
     color: #007bff;
     border-color: transparent;
     background-color: $background-color2;
