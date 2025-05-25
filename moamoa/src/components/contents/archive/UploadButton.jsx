@@ -1,9 +1,12 @@
 import React from "react";
 import "./Archive.scss";
 
-const UploadButton = ({ onClick }) => {
+const UploadButton = ({ onClick, isActive }) => {
   return (
-    <button className="archive-btn Upload" onClick={onClick}>
+    <button
+      className={`archive-btn Upload ${isActive ? "active" : ""}`}
+      onClick={onClick}
+    >
       레퍼런스 업로드
     </button>
   );
