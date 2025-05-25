@@ -5,7 +5,6 @@ const UploadDropzone = ({ onFileSelect, children }) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [],
-      "application/pdf": [],
     },
     onDrop: (acceptedFiles) => {
       onFileSelect(acceptedFiles[0]);
