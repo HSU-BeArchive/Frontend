@@ -7,6 +7,7 @@ import { isDuplicateFolderName } from "../../../utils/validation";
 import { GoPencil } from "react-icons/go";
 import { IoCheckmark } from "react-icons/io5";
 import { TbTrash } from "react-icons/tb";
+import createFolderApi from "../../../api/folder/createFolderApi";
 
 const FolderListItem = ({
   id,
@@ -31,6 +32,8 @@ const FolderListItem = ({
     originalValue,
     folderNames
   );
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   // 외부 클릭 시 상태 초기화
   useEffect(() => {
@@ -59,9 +62,12 @@ const FolderListItem = ({
   };
 
   // 이름 수정
-  const handleSave = () => {
+  const handleSave = async () => {
     // 비어있는 경우
-    if (inputValue.trim() === "") return;
+    if (inputValue.trim() === "") {
+      setErrorMessage("폴더명을 입력해 주세요.");
+      return;
+    }
     // 중복된 경우
     if (isDuplicate) {
       showDialog({
@@ -70,12 +76,18 @@ const FolderListItem = ({
         subMessage: "폴더명을 변경해 주세요.",
         confirmText: "확인",
       });
-
       return;
     }
-    commitValue(inputValue); // 저장된 이름 갱신
-    onRename(id, inputValue); // 상태에 반영 (UI 갱신용)
-    onStopEdit();
+    const res = await createFolderApi(inputValue);
+
+    if (res.success) {
+      commitValue(inputValue); // 저장된 이름 갱신
+      onRename(id, inputValue); // 상태에 반영 (UI 갱신용)
+      onStopEdit();
+      setErrorMessage("");
+    } else {
+      setErrorMessage(res.message || "폴더 생성 중 오류가 발생했습니다.");
+    }
   };
 
   return (
@@ -101,6 +113,11 @@ const FolderListItem = ({
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSave()}
           />
+
+          {errorMessage && (
+            <div className="folder-item__error-message">{errorMessage}</div>
+          )}
+
           <div className="folder-item__icons">
             <IoCheckmark
               className={`folder-item__icon folder-item__icon--confirm ${
