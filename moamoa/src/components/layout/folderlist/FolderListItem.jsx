@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./FolderList.scss";
-import Dialog from "../../common/dialog/Dialog";
 import useEditableInput from "../../../hooks/useEditableInput";
 import useDialog from "../../../hooks/useDialog";
 import { isDuplicateFolderName } from "../../../utils/validation";

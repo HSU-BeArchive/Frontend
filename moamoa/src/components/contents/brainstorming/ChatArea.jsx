@@ -3,24 +3,27 @@ import startChatApi from "../../../api/brainstorming/startChatApi";
 import sendChatApi from "../../../api/brainstorming/sendChatApi";
 import historyChatApi from "../../../api/brainstorming/historyChatApi";
 import LoadingSpinner from "../../common/spinner/LoadingSpinner";
+import useThinkingDots from "../../../hooks/useThinkingDots";
+import useAutoScroll from "../../../hooks/useAutoScroll";
+import { getRecommendId, setRecommendId } from "../../../utils/storage";
 import { HiOutlineArrowCircleUp } from "react-icons/hi";
 import CHATBOT from "../../../assets/images/chat-bot.svg";
 
 const ChatArea = ({ refId }) => {
   const [started, setStarted] = useState(false);
   const [loadingInit, setLoadingInit] = useState(false); // 최초 추천 질문
-  const [loadingAI, setLoadingAI] = useState(false); // 문 후 AI 응답 대기
-  const [thinkingDots, setThinkingDots] = useState(""); // 늘어나는 점
+  const [loadingAI, setLoadingAI] = useState(false); // AI 응답 대기
   const [messages, setMessages] = useState([]);
   const [recommendationId, setRecommendationId] = useState(null);
   const [inputMessage, setInputMessage] = useState("");
+
+  const thinkingDots = useThinkingDots(loadingAI); // 늘어나는 점
   const chatBoxRef = useRef(null);
+  useAutoScroll(chatBoxRef, messages); // 자동 스크롤
 
   useEffect(() => {
-    const storedId = localStorage.getItem(`recommendationId-${refId}`);
-    if (storedId) {
-      setRecommendationId(Number(storedId));
-    }
+    const id = getRecommendId(refId);
+    if (id) setRecommendationId(id);
   }, [refId]);
 
   // 채팅 존재 여부 확인
@@ -29,7 +32,6 @@ const ChatArea = ({ refId }) => {
       if (!recommendationId) return;
 
       const history = await historyChatApi(recommendationId);
-      console.log("서버로부터 받은 채팅 기록:", history);
       if (history.length > 0) {
         setMessages(history);
         setStarted(true);
@@ -38,26 +40,6 @@ const ChatArea = ({ refId }) => {
 
     fetchHistory();
   }, [recommendationId]);
-
-  // 채팅 화면 자동 스크롤
-  useEffect(() => {
-    if (chatBoxRef.current) {
-      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-    }
-  }, [messages]);
-
-  useEffect(() => {
-    if (!loadingAI) return;
-
-    const interval = setInterval(() => {
-      setThinkingDots((prev) => {
-        if (prev === "...") return "";
-        return prev + ".";
-      });
-    }, 500); // 0.5초 간격으로 점 하나씩 추가
-
-    return () => clearInterval(interval); // 언마운트 시 정리
-  }, [loadingAI]);
 
   // AI 채팅 시작
   const startConversation = async () => {
@@ -72,8 +54,7 @@ const ChatArea = ({ refId }) => {
 
       setMessages([{ text: question, role: "AI" }]);
       setRecommendationId(recommendationId);
-      // 로컬스토리지에 recommendationId 저장
-      localStorage.setItem(`recommendationId-${refId}`, recommendationId);
+      setRecommendId(refId, recommendationId);
 
       // 추천 질문도 채팅으로 저장
       await sendChatApi({
