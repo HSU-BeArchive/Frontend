@@ -1,37 +1,38 @@
 // 레퍼런스 생성 API(POST)
 import defaultInstance from "../utils/instance";
 
-const createRefApi = async (name, description, img, folderId) => {
-  try {
-    // FormData 객체 생성 (이미지 때문에)
-    const formData = new FormData();
-    formData.append("referenceName", name);
-    formData.append("referenceDescription", description);
-    formData.append("referenceImg", img); // img는 File 객체
+const createRefApi = async (name, description, file, folderId) => {
+  // FormData 객체 생성 (이미지 때문에)
+  const formData = new FormData();
+  formData.append("referenceName", name);
+  formData.append("referenceDescription", description);
+  formData.append("referenceImg", file); // img는 File 객체
 
+  try {
     const response = await defaultInstance.post(
       `/folder/${folderId}/reference`,
-      formData
+      formData,
+      {
+        headers: {
+          "Content-Type": undefined, // axios가 자동 설정
+        },
+      }
     );
-    const { httpStatus, isSuccess, data, message } = response.data;
+
+    const { httpStatus, isSuccess, message, data } = response.data;
 
     if (httpStatus === 200 && isSuccess) {
-      console.log("레퍼런스 저장 성공");
-      return {
-        referenceId: data.referenceId,
-        referenceName: data.referenceName,
-        referenceDescription: data.referenceDescription,
-        referenceImgUrl: data.referenceImgUrl,
-      };
-    } else if (httpStatus === 409 && !isSuccess) {
-      console.warn("파일명 중복:", message);
-      return null;
+      console.log("레퍼런스 업로드 성공:", message);
+      return data;
     } else {
-      console.warn("레퍼런스 저장 실패:", message);
+      console.warn("레퍼런스 업로드 실패:", message);
       return null;
     }
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(
+      "레퍼런스 업로드 실패:",
+      error.response?.data || error.message
+    );
     return null;
   }
 };
