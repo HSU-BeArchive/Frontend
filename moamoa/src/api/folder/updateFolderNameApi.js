@@ -3,7 +3,7 @@ import defaultInstance from "../utils/instance";
 const updateFolderNameApi = async (folderId, folderName) => {
   const userId = localStorage.getItem("userId");
   try {
-    const response = await defaultInstance.patch(
+    const response = await defaultInstance.put(
       `/user/${userId}/folder/${folderId}`,
       { folderName }
     );

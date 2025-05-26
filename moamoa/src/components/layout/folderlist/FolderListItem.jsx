@@ -8,10 +8,12 @@ import { GoPencil } from "react-icons/go";
 import { IoCheckmark } from "react-icons/io5";
 import { TbTrash } from "react-icons/tb";
 import createFolderApi from "../../../api/folder/createFolderApi";
+import updateFolderNameApi from "../../../api/folder/updateFolderNameApi";
 
 const FolderListItem = ({
   id,
   name,
+  folder,
   isEditing,
   onStartEdit,
   onStopEdit,
@@ -78,7 +80,14 @@ const FolderListItem = ({
       });
       return;
     }
-    const res = await createFolderApi(inputValue);
+
+    let res;
+
+    if (folder?.isNew) {
+      res = await createFolderApi(inputValue);
+    } else {
+      res = await updateFolderNameApi(id, inputValue);
+    }
 
     if (res.success) {
       commitValue(inputValue); // 저장된 이름 갱신

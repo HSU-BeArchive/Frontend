@@ -129,6 +129,7 @@ function SortableFolder({
       <FolderListItem
         id={folder.id}
         name={folder.name}
+        folder={folder}
         isEditing={isEditing}
         onStartEdit={onStartEdit}
         onStopEdit={onStopEdit}

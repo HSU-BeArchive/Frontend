@@ -12,7 +12,7 @@ const useFolderList = () => {
   const handleAddFolder = () => {
     const newId =
       folders.length > 0 ? Math.max(...folders.map((f) => f.id)) + 1 : 1;
-    const newFolder = { id: newId, name: "새 폴더" };
+      const newFolder = { id: newId, name: "새 폴더", isNew: true };
 
     setFolders([...folders, newFolder]);
     setEditingId(newId);
@@ -30,7 +30,9 @@ const useFolderList = () => {
     if (res.success) {
       setFolders((prev) =>
         prev.map((folder) =>
-          folder.id === id ? { ...folder, name: newName } : folder
+          folder.id === id
+            ? { ...folder, name: newName, isNew: false } 
+            : folder
         )
       );
     } else {
