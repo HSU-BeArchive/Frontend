@@ -182,4 +182,13 @@ $color-gray-strong: #262626;
       }
     }
   }
+  &__error-message {
+    color: red;
+    font-size: 0.73vw; // 14px
+    margin-top: 0.26vw; // 5px
+    margin-left: 0.26vw;
+    font-weight: 400;
+    white-space: nowrap;
+    max-width: 100%;
+  }
 }
