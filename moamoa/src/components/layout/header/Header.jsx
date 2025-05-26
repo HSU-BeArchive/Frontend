@@ -5,6 +5,8 @@ import "./Header.scss";
 import LOGO from "../../../assets/images/logo-text.svg";
 
 const Header = () => {
+  const userId = localStorage.getItem("userId");
+
   return (
     <header className="header">
       <div className="header__logo">
@@ -13,7 +15,7 @@ const Header = () => {
       <div className="header__right">
         <HomeButton />
         <div className="account-box">
-          <span className="account-id">아이디</span>
+          <span className="account-id">{userId}</span>
           <button className="logout-button">로그아웃</button>
         </div>
       </div>
