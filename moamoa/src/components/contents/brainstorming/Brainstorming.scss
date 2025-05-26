@@ -161,7 +161,6 @@
   padding: 1.04vw; // 20px
   display: flex;
   flex-direction: column;
-
   position: relative;
 
   &__box {
@@ -172,19 +171,52 @@
     padding: 1.04vw;
     overflow-y: auto;
     position: relative;
+
+    &::-webkit-scrollbar {
+      width: 0.26vw; // 5px
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $gray-color2;
+      border-radius: 1.04vw; // 20px
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: $gray-color1;
+    }
+  }
+
+  &__message-wrapper {
+    display: flex;
+    margin-top: 1.04vw;
+  }
+
+  &__avatar {
+    width: 4.69vw;
+    height: 4.69vw;
+    margin-right: 0.78vw;
   }
 
   &__bubble {
     display: inline-block;
-    max-width: 100%;
+    max-width: 75%;
     word-break: break-word; // 긴 단어 줄바꿈
-    border: 0.18vw solid $main-color1;
     padding: 0.52vw; // 10px
     border-radius: 0.52vw; // 10px
     font-size: 1.04vw;
     font-weight: 400;
     color: $gray-color3;
     line-height: 1.4;
+
+    &--ai {
+      border: 0.18vw solid $main-color1;
+      align-self: flex-start;
+    }
+
+    &--user {
+      border: 0.18vw solid $gray-color2;
+      align-self: flex-end;
+    }
   }
 
   &__input-wrapper {
@@ -219,6 +251,7 @@
 
   &__icon {
     color: $gray-color2;
+    cursor: pointer;
 
     &:hover {
       color: #262626;
