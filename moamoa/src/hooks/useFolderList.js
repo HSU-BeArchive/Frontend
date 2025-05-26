@@ -1,18 +1,38 @@
-import { useState } from "react";
-import dummyFolder from "../data/dummyFolders.json";
+import { useState, useEffect } from "react";
+import getFolderListApi from "../api/folder/getFolderListApi";
 import updateFolderNameApi from "../api/folder/updateFolderNameApi";
 
 // 폴더 목록 상태 및 추가, 삭제, 편집
 const useFolderList = () => {
-  // 폴더 목록 -> api 연결 예정
-  const [folders, setFolders] = useState(dummyFolder);
+  const [folders, setFolders] = useState([]);
   const [editingId, setEditingId] = useState(null); // 편집 여부
+
+  // 폴더 목록 조회
+  useEffect(() => {
+    const fetchFolders = async () => {
+      const res = await getFolderListApi();
+
+      if (res.success) {
+        // folderSummeryList를 변환해서 상태에 저장
+        const formattedFolders = res.data.folderSummeryList.map((folder) => ({
+          id: folder.folderId,
+          name: folder.folderName,
+          order: folder.folderOrder,
+        }));
+        setFolders(formattedFolders);
+      } else {
+        console.error("폴더 목록 로딩 실패:", res.message);
+      }
+    };
+
+    fetchFolders();
+  }, []);
 
   // 새 폴더 추가
   const handleAddFolder = () => {
     const newId =
       folders.length > 0 ? Math.max(...folders.map((f) => f.id)) + 1 : 1;
-      const newFolder = { id: newId, name: "새 폴더", isNew: true };
+    const newFolder = { id: newId, name: "새 폴더", isNew: true };
 
     setFolders([...folders, newFolder]);
     setEditingId(newId);
@@ -31,7 +51,7 @@ const useFolderList = () => {
       setFolders((prev) =>
         prev.map((folder) =>
           folder.id === id
-            ? { ...folder, name: newName, isNew: false } 
+            ? { ...folder, name: newName, isNew: false }
             : folder
         )
       );
