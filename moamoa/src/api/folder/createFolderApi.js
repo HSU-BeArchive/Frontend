@@ -5,6 +5,7 @@ const createFolderApi = async (folderName) => {
   try {
     const userId = localStorage.getItem("userId");
     const response = await defaultInstance.post(`user/${userId}/folder`, {
+
       folderName,
     });
 
