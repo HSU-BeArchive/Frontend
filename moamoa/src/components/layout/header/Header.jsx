@@ -24,7 +24,7 @@ const Header = () => {
       <div className="header__right">
         <HomeButton />
         <div className="account-box">
-          <span className="account-id">{userId}</span>
+          <span className="account-id">{userId ? userId : "사용자 정보 없음"}</span>
           <button className="logout-button" onClick={handleLogout}>로그아웃</button>
         </div>
       </div>
