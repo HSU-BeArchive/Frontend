@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import editRefInfo from "../../../api/brainstorming/editRefInfo";
+import editRefInfoApi from "../../../api/brainstorming/editRefInfoAPI";
 import { GoPencil } from "react-icons/go";
 import { IoCheckmark } from "react-icons/io5";
 import "./Brainstorming.scss";
@@ -33,7 +33,7 @@ const ReferenceInfo = ({ data, folderId, refId }) => {
     }
 
     // 이름, 메모 수정 api 요청
-    await editRefInfo(folderId, refId, referenceName, referenceDescription);
+    await editRefInfoApi(folderId, refId, referenceName, referenceDescription);
 
     setIsEditing(false);
     console.log("레퍼런스 수정됨");

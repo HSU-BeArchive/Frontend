@@ -1,7 +1,7 @@
 // 레퍼런스 이름, 메모 수정 API(PUT)
 import defaultInstance from "../utils/instance";
 
-const editRefInfo = async (
+const editRefInfoApi = async (
   folderId,
   referenceId,
   referenceName,
@@ -31,4 +31,4 @@ const editRefInfo = async (
   }
 };
 
-export default editRefInfo;
+export default editRefInfoApi;
