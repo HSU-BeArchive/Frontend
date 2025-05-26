@@ -1,5 +1,6 @@
 import { useState } from "react";
 import dummyFolder from "../data/dummyFolders.json";
+import updateFolderNameApi from "../api/folder/updateFolderNameApi";
 
 // 폴더 목록 상태 및 추가, 삭제, 편집
 const useFolderList = () => {
@@ -23,12 +24,18 @@ const useFolderList = () => {
   };
 
   // 새로운 이름 반영
-  const handleRenameFolder = (id, newName) => {
-    setFolders((prev) =>
-      prev.map((folder) =>
-        folder.id === id ? { ...folder, name: newName } : folder
-      )
-    );
+  const handleRenameFolder = async (id, newName) => {
+    const res = await updateFolderNameApi(id, newName);
+
+    if (res.success) {
+      setFolders((prev) =>
+        prev.map((folder) =>
+          folder.id === id ? { ...folder, name: newName } : folder
+        )
+      );
+    } else {
+      console.warn("폴더 이름 수정 실패:", res.message);
+    }
   };
 
   return {
