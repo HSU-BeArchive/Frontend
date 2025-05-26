@@ -23,7 +23,7 @@ const UploadDialog = ({ onClose, onUpload }) => {
           <div className="upload-left">
             <UploadDropzone onFileSelect={handleFileSelect}>
               <img src={previewUrl || uploadIcon} alt="preview" />
-              <button>파일찾기</button>
+              {!previewUrl && <button>파일찾기</button>}
             </UploadDropzone>
           </div>
 
@@ -53,10 +53,13 @@ const UploadDialog = ({ onClose, onUpload }) => {
         </div>
 
         <div className="upload-actions">
-          <button className="btn" onClick={() => onUpload(file, title, memo)}>
+          <button
+            className="btn btn__upload"
+            onClick={() => onUpload(file, title, memo)}
+          >
             업로드
           </button>
-          <button className="btn" onClick={onClose}>
+          <button className="btn btn__cancel" onClick={onClose}>
             취소
           </button>
         </div>

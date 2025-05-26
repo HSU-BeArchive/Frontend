@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import editRefInfoApi from "../../../api/brainstorming/editRefInfoAPI";
 import { GoPencil } from "react-icons/go";
 import { IoCheckmark } from "react-icons/io5";
 import "./Brainstorming.scss";
 
-const ReferenceInfo = ({ data }) => {
+const ReferenceInfo = ({ data, folderId, refId }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("레퍼런스 이름");
   const [memo, setMemo] = useState("");
@@ -11,24 +12,41 @@ const ReferenceInfo = ({ data }) => {
   // props로 받은 데이터 적용
   useEffect(() => {
     if (data) {
-      setName(data.name || "");
-      setMemo(data.description || "");
+      setName(data.referenceName || "");
+      setMemo(data.referenceDescription || "");
     }
   }, [data]);
 
-  const handleSave = () => {
-    if (name.trim() !== "") {
-      setIsEditing(false);
-      // 서버 저장  추가 예정
-      //console.log("저장됨:", { name, memo });
+  // 레퍼런스 이름, 메모 수정
+  const handleSave = async () => {
+    if (name.trim() === "" || memo.trim() === "") {
+      return;
     }
+    const referenceName = name !== data.referenceName ? name : null;
+    const referenceDescription =
+      memo !== data.referenceDescription ? memo : null;
+
+    // 변경사항 없으면 요청 생략
+    if (referenceName === null && referenceDescription === null) {
+      setIsEditing(false);
+      return;
+    }
+
+    // 이름, 메모 수정 api 요청
+    await editRefInfoApi(folderId, refId, referenceName, referenceDescription);
+
+    setIsEditing(false);
+    console.log("레퍼런스 수정됨");
   };
 
   return (
     <div className="ref-info">
       <div className="ref-info__image">
         <img
-          src={data?.img || "https://cdn.spectory.net/src/images/noImg.gif"}
+          src={
+            data?.referenceImgUrl ||
+            "https://cdn.spectory.net/src/images/noImg.gif"
+          }
           alt="레퍼런스 이미지"
         />
       </div>

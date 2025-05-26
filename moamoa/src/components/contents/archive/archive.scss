@@ -61,10 +61,10 @@
   gap: 0.52vw; // 10px
 
   img {
-    width: 23.70vw;
+    width: 23.7vw;
     height: 24.58vw;
   }
-} 
+}
 
 .archive-card {
   background-color: transparent;
@@ -85,6 +85,7 @@
     border-radius: 1.04vw; // 20px
     position: relative;
     overflow: hidden;
+    border: 0.13vw solid $gray-color1;
 
     img {
       width: 100%;
@@ -105,7 +106,7 @@
       color: #262626;
     }
   }
-  
+
   .card-name {
     width: 100%;
     height: 2.86vw; // 55px
@@ -120,8 +121,8 @@
 }
 
 .archive-btn {
-  border-radius: 1.56vw;  // 30px
-  font-size: 0.89vw;      // 17px
+  border-radius: 1.56vw; // 30px
+  font-size: 0.89vw; // 17px
   font-weight: 600;
   border: 2px solid $gray-color2;
   background-color: transparent;

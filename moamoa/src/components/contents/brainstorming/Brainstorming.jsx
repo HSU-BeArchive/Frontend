@@ -1,24 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import getOneRefApi from "../../../api/brainstorming/getOneRefApi";
 import ReferenceInfo from "./ReferenceInfo";
 import ChatArea from "./ChatArea";
-import useRefData from "../../../hooks/useRefData";
 import "./Brainstorming.scss";
 
 const Brainstorming = () => {
-  const [started, setStarted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const referenceData = useRefData(); // 레퍼런스 데이터
+  const { folderId, refId } = useParams();
+  const [referenceData, setReferenceData] = useState(null); // 레퍼런스 데이터
 
-  const startConversation = () => {
-    setStarted(true);
-    setLoading(true);
-    setTimeout(() => {
-      // 테스트용
-      setMessages(["AI가 처음 하는 말."]);
-      setLoading(false);
-    }, 2000);
-  };
+  useEffect(() => {
+    const fetchReference = async () => {
+      // 레퍼런스 단일 조회 api 호출
+      const data = await getOneRefApi(folderId, refId);
+      setReferenceData(data);
+    };
+    fetchReference();
+  }, [folderId, refId]);
 
   return (
     <div className="brainstorming">
@@ -26,14 +24,8 @@ const Brainstorming = () => {
         <span className="brainstorming__title">아카이브 보드</span>
       </div>
       <div className="brainstorming__chat">
-        <ReferenceInfo data={referenceData} />
-        <ChatArea
-          started={started}
-          loading={loading}
-          messages={messages}
-          inputDisabled={loading}
-          onStart={startConversation}
-        />
+        <ReferenceInfo data={referenceData} folderId={folderId} refId={refId} />
+        <ChatArea />
       </div>
     </div>
   );
