@@ -9,6 +9,7 @@ import createRefApi from "../../../api/archive/createRefApi";
 import getAllRefsApi from "../../../api/archive/getAllRefsApi";
 import deleteRefApi from "../../../api/archive/deleteRefApi";
 import extractKeywordsApi from "../../../api/keywords/extractKeywordsApi";
+import Wordcloud from "../wordcloud/Wordcloud";
 import "./archive.scss";
 
 const Archive = () => {
@@ -123,6 +124,11 @@ const Archive = () => {
           onClose={() => setShowUploadDialog(false)}
           onUpload={handleUpload}
         />
+      )}
+      {keywords.length > 0 && (
+        <div className="archive-board-wordcloud">
+          <Wordcloud keywords={keywords} />
+        </div>
       )}
     </div>
   );

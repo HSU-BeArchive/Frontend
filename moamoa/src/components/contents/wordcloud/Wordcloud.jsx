@@ -1,10 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Wordcloud.scss";
 import WordCloud from "react-d3-cloud";
-import dummyWords from "../../../data/dummyWords.json";
-
-// 키워드 더미 데이터
-const data = dummyWords;
 
 // 조건에 따라 색상 설정
 const getColor = (word) => {
@@ -23,9 +19,9 @@ const fontSizeMapper = (word) => {
   return Math.max(minFontSize, Math.min(scale, maxFontSize));
 };
 
-const Wordcloud = () => {
+const Wordcloud = ({ keywords }) => {
   const containerRef = useRef();
-  const [size, setSize] = useState({ width: 1392, height: 682 }); // 워드클라우드에 넘길 사이즈 상태값
+  const [size, setSize] = useState({ width: 1392, height: 682 }); 
 
   // 워드클라우드를 현재 컨테이너 크기에 맞춰 자동 조정
   useEffect(() => {
@@ -40,6 +36,11 @@ const Wordcloud = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const data = keywords.map((k) => ({
+    text: k.keywordName,
+    value: k.keywordCount,
+  }));
 
   return (
     <div className="wordcloud-zip">
