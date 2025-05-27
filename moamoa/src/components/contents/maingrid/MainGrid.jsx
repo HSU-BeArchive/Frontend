@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -15,11 +15,11 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
 import "./MainGrid.scss";
-import dummyFolders from "../../../data/dummyFolders.json";
 import FolderItem from "./folderitem/FolderItem";
+import getFolderListApi from "../../../api/folder/getFolderListApi";
 
 const MainGrid = () => {
-  const [folders, setFolders] = useState(dummyFolders);
+  const [folders, setFolders] = useState([]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -28,6 +28,25 @@ const MainGrid = () => {
       },
     })
   );
+
+  useEffect(() => {
+    const fetchFolders = async () => {
+      const res = await getFolderListApi();
+      if (res.success) {
+        const formatted = res.data.folderSummeryList.map((folder) => ({
+          id: folder.folderId,
+          name: folder.folderName,
+          isEmpty: folder.isEmpty, // 서버에서 있는지 확인
+          order: folder.folderOrder,
+        }));
+        setFolders(formatted);
+      } else {
+        console.error("폴더 목록 불러오기 실패:", res.message);
+      }
+    };
+
+    fetchFolders();
+  }, []);
 
   const handleDragEnd = ({ active, over }) => {
     if (active.id !== over?.id) {

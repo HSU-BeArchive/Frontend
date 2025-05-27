@@ -8,10 +8,12 @@ import { GoPencil } from "react-icons/go";
 import { IoCheckmark } from "react-icons/io5";
 import { TbTrash } from "react-icons/tb";
 import createFolderApi from "../../../api/folder/createFolderApi";
+import updateFolderNameApi from "../../../api/folder/updateFolderNameApi";
 
 const FolderListItem = ({
   id,
   name,
+  folder,
   isEditing,
   onStartEdit,
   onStopEdit,
@@ -78,18 +80,34 @@ const FolderListItem = ({
       });
       return;
     }
-    const res = await createFolderApi(inputValue);
+
+    if (folder?.isNew) {
+      
+      const res = await createFolderApi(inputValue);
+
+      if (res.success) {
+        commitValue(inputValue); // 저장된 이름 갱신
+        onRename(id, inputValue, res.data.id); // 상태에 반영 (UI 갱신용)
+        onStopEdit();
+        setErrorMessage("");
+      } else {
+        setErrorMessage(res.message || "폴더 생성 중 오류가 발생했습니다.");
+      }
+      return;
+    }
+
+    const res = await updateFolderNameApi(id, inputValue);
 
     if (res.success) {
-      commitValue(inputValue); // 저장된 이름 갱신
-      onRename(id, inputValue); // 상태에 반영 (UI 갱신용)
+      commitValue(inputValue);
+      onRename(id, inputValue);
       onStopEdit();
       setErrorMessage("");
     } else {
-      setErrorMessage(res.message || "폴더 생성 중 오류가 발생했습니다.");
+      setErrorMessage(res.message || "폴더 수정 중 오류가 발생했습니다.");
     }
   };
-
+  
   return (
     <div
       ref={ref}
