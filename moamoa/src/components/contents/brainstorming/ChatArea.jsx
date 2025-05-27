@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import startChatApi from "../../../api/brainstorming/startChatApi";
 import sendChatApi from "../../../api/brainstorming/sendChatApi";
 import historyChatApi from "../../../api/brainstorming/historyChatApi";
+import getRecomIdApi from "../../../api/brainstorming/getRecomIdApi";
 import LoadingSpinner from "../../common/spinner/LoadingSpinner";
 import useThinkingDots from "../../../hooks/useThinkingDots";
 import useAutoScroll from "../../../hooks/useAutoScroll";
-import { getRecommendId, setRecommendId } from "../../../utils/storage";
 import { HiOutlineArrowCircleUp } from "react-icons/hi";
 import CHATBOT from "../../../assets/images/chat-bot.svg";
 
@@ -21,25 +21,23 @@ const ChatArea = ({ refId }) => {
   const chatBoxRef = useRef(null);
   useAutoScroll(chatBoxRef, messages); // 자동 스크롤
 
-  useEffect(() => {
-    const id = getRecommendId(refId);
-    if (id) setRecommendationId(id);
-  }, [refId]);
-
   // 채팅 존재 여부 확인
   useEffect(() => {
-    const fetchHistory = async () => {
-      if (!recommendationId) return;
+    const fetchExisting = async () => {
+      // RecommendationId 가져오는 api 호출
+      const result = await getRecomIdApi(refId);
+      if (result?.recommendationId) {
+        setRecommendationId(result.recommendationId);
 
-      const history = await historyChatApi(recommendationId);
-      if (history.length > 0) {
-        setMessages(history);
-        setStarted(true);
+        const history = await historyChatApi(result.recommendationId);
+        if (history.length > 0) {
+          setMessages(history);
+          setStarted(true);
+        }
       }
     };
-
-    fetchHistory();
-  }, [recommendationId]);
+    fetchExisting();
+  }, [refId]);
 
   // AI 채팅 시작
   const startConversation = async () => {
@@ -49,12 +47,9 @@ const ChatArea = ({ refId }) => {
     // 시작 질문 api 호출
     const result = await startChatApi(refId);
     if (result) {
-      const question = result.question;
-      const recommendationId = result.recommendationId;
-
+      const { question, recommendationId } = result;
       setMessages([{ text: question, role: "AI" }]);
       setRecommendationId(recommendationId);
-      setRecommendId(refId, recommendationId);
 
       // 추천 질문도 채팅으로 저장
       await sendChatApi({
