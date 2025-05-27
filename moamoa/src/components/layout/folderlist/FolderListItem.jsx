@@ -81,24 +81,33 @@ const FolderListItem = ({
       return;
     }
 
-    let res;
-
     if (folder?.isNew) {
-      res = await createFolderApi(inputValue);
-    } else {
-      res = await updateFolderNameApi(id, inputValue);
+      
+      const res = await createFolderApi(inputValue);
+
+      if (res.success) {
+        commitValue(inputValue); // 저장된 이름 갱신
+        onRename(id, inputValue, res.data.id); // 상태에 반영 (UI 갱신용)
+        onStopEdit();
+        setErrorMessage("");
+      } else {
+        setErrorMessage(res.message || "폴더 생성 중 오류가 발생했습니다.");
+      }
+      return;
     }
 
+    const res = await updateFolderNameApi(id, inputValue);
+
     if (res.success) {
-      commitValue(inputValue); // 저장된 이름 갱신
-      onRename(id, inputValue); // 상태에 반영 (UI 갱신용)
+      commitValue(inputValue);
+      onRename(id, inputValue);
       onStopEdit();
       setErrorMessage("");
     } else {
-      setErrorMessage(res.message || "폴더 생성 중 오류가 발생했습니다.");
+      setErrorMessage(res.message || "폴더 수정 중 오류가 발생했습니다.");
     }
   };
-
+  
   return (
     <div
       ref={ref}
