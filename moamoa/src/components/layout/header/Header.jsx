@@ -6,7 +6,7 @@ import "./Header.scss";
 import LOGO from "../../../assets/images/logo-text.svg";
 
 const Header = () => {
-  const userId = localStorage.getItem("userId");
+  const loginId = localStorage.getItem("loginId");
   const navigate = useNavigate(); 
 
   const handleLogout = () => {
@@ -24,8 +24,12 @@ const Header = () => {
       <div className="header__right">
         <HomeButton />
         <div className="account-box">
-          <span className="account-id">{userId ? userId : "사용자 정보 없음"}</span>
-          <button className="logout-button" onClick={handleLogout}>로그아웃</button>
+          <span className="account-id">
+            {loginId ? loginId : "사용자 정보 없음"}
+          </span>
+          <button className="logout-button" onClick={handleLogout}>
+            로그아웃
+          </button>
         </div>
       </div>
     </header>
