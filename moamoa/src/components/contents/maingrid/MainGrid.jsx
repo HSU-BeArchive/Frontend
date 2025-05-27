@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   DndContext,
   closestCenter,
@@ -20,6 +21,7 @@ import getFolderListApi from "../../../api/folder/getFolderListApi";
 
 const MainGrid = () => {
   const [folders, setFolders] = useState([]);
+  const navigate = useNavigate();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -28,6 +30,10 @@ const MainGrid = () => {
       },
     })
   );
+
+  const handleFolderClick = (folderId) => {
+    navigate(`/archive/${folderId}`);
+  };
 
   useEffect(() => {
     const fetchFolders = async () => {
@@ -78,6 +84,7 @@ const MainGrid = () => {
                 key={folder.id}
                 id={folder.id}
                 folder={folder}
+                onClick={() => handleFolderClick(folder.id)}
               />
             ))}
           </div>
@@ -87,7 +94,7 @@ const MainGrid = () => {
   );
 };
 
-function SortableFolderItem({ id, folder }) {
+function SortableFolderItem({ id, folder, onClick }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -97,7 +104,13 @@ function SortableFolderItem({ id, folder }) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      onClick={onClick}
+    >
       <FolderItem name={folder.name} isEmpty={folder.isEmpty} />
     </div>
   );

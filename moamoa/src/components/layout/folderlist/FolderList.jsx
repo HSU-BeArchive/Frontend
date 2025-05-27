@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   DndContext,
   closestCenter,
@@ -18,10 +19,13 @@ import "./FolderList.scss";
 import useFolderList from "../../../hooks/useFolderList";
 import { FaPlus } from "react-icons/fa6";
 import FolderListItem from "./FolderListItem";
-import Dialog from "../../common/dialog/Dialog";
 import useDialog from "../../../hooks/useDialog";
 
 const FolderList = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [activeFolderId, setActiveFolderId] = useState(null); // 더블클릭한 폴더
+
   const MAX_NAME_LENGTH = 5;
   const {
     folders,
@@ -32,6 +36,20 @@ const FolderList = () => {
     handleConfirmDelete,
     handleRenameFolder,
   } = useFolderList();
+
+  // 경로가 archive가 아닐 경우 비활성화
+  useEffect(() => {
+    const isArchiveRoute = /^\/archive(\/|$)/.test(location.pathname);
+    if (!isArchiveRoute) {
+      setActiveFolderId(null);
+    }
+  }, [location.pathname]);
+
+  // 더블클릭 이벤트
+  const handleDoubleClick = (folderId) => {
+    setActiveFolderId(folderId);
+    navigate(`/archive/${folderId}`);
+  };
 
   const formatFolderName = (name) => {
     return name.length > MAX_NAME_LENGTH
@@ -97,6 +115,8 @@ const FolderList = () => {
                 onRequestDelete={() => handleDelete(folder)}
                 onRename={handleRenameFolder}
                 folderNames={folders.map((f) => f.name)}
+                onDoubleClick={handleDoubleClick}
+                isActive={activeFolderId === folder.id}
               />
             ))}
           </div>
@@ -115,6 +135,8 @@ function SortableFolder({
   onRequestDelete,
   onRename,
   folderNames,
+  onDoubleClick,
+  isActive,
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
@@ -136,6 +158,8 @@ function SortableFolder({
         onRequestDelete={onRequestDelete}
         onRename={onRename}
         folderNames={folderNames}
+        isActive={isActive}
+        onDoubleClick={onDoubleClick}
       />
     </div>
   );
