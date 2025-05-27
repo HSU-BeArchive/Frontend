@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useFolderContext } from "../../../contexts/FolderContext";
 import {
   DndContext,
   closestCenter,
@@ -10,16 +12,15 @@ import {
   SortableContext,
   useSortable,
   rectSortingStrategy,
-  arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
 import "./MainGrid.scss";
-import dummyFolders from "../../../data/dummyFolders.json";
 import FolderItem from "./folderitem/FolderItem";
 
 const MainGrid = () => {
-  const [folders, setFolders] = useState(dummyFolders);
+  const { folders, handleReorderFolders } = useFolderContext();
+  const navigate = useNavigate();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -29,11 +30,13 @@ const MainGrid = () => {
     })
   );
 
+  const handleFolderClick = (folderId) => {
+    navigate(`/archive/${folderId}`);
+  };
+
   const handleDragEnd = ({ active, over }) => {
     if (active.id !== over?.id) {
-      const oldIndex = folders.findIndex((f) => f.id === active.id);
-      const newIndex = folders.findIndex((f) => f.id === over?.id);
-      setFolders((items) => arrayMove(items, oldIndex, newIndex));
+      handleReorderFolders(active.id, over.id);
     }
   };
 
@@ -59,6 +62,7 @@ const MainGrid = () => {
                 key={folder.id}
                 id={folder.id}
                 folder={folder}
+                onClick={() => handleFolderClick(folder.id)}
               />
             ))}
           </div>
@@ -68,7 +72,7 @@ const MainGrid = () => {
   );
 };
 
-function SortableFolderItem({ id, folder }) {
+function SortableFolderItem({ id, folder, onClick }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -78,7 +82,13 @@ function SortableFolderItem({ id, folder }) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      onClick={onClick}
+    >
       <FolderItem name={folder.name} isEmpty={folder.isEmpty} />
     </div>
   );

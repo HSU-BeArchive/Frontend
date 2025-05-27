@@ -4,7 +4,8 @@ import defaultInstance from "../utils/instance";
 const createFolderApi = async (folderName) => {
   try {
     const userId = localStorage.getItem("userId");
-    const response = await defaultInstance.post(`/folder/${userId}`, {
+    const response = await defaultInstance.post(`user/${userId}/folder`, {
+
       folderName,
     });
 

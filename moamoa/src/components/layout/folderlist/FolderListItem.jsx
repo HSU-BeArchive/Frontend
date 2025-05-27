@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import "./FolderList.scss";
 import useEditableInput from "../../../hooks/useEditableInput";
 import useDialog from "../../../hooks/useDialog";
@@ -11,97 +11,95 @@ import createFolderApi from "../../../api/folder/createFolderApi";
 const FolderListItem = ({
   id,
   name,
+  folder,
   isEditing,
   onStartEdit,
   onStopEdit,
   onRequestDelete,
   onRename,
   folderNames,
+  onDoubleClick,
+  isActive,
 }) => {
   const { inputValue, setInputValue, originalValue, isModified, commitValue } =
     useEditableInput(name);
 
-  const { showDialog } = useDialog(); // 중복 경고창
+  const { showDialog } = useDialog();
   const ref = useRef(null);
-  const [clickState, setClickState] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
-  // 중복 여부 체크
   const isDuplicate = isDuplicateFolderName(
     inputValue,
     originalValue,
     folderNames
   );
 
-  const [errorMessage, setErrorMessage] = useState("");
-
-  // 외부 클릭 시 상태 초기화
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setClickState(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // 클릭 상태 처리 (단일/더블 클릭)
-  let clickTimeout = useRef(null);
-  const handleClick = () => {
-    if (clickTimeout.current) {
-      clearTimeout(clickTimeout.current);
-      clickTimeout.current = null;
-      setClickState("double");
-    } else {
-      clickTimeout.current = setTimeout(() => {
-        setClickState("single");
-        clickTimeout.current = null;
-      }, 250);
-    }
-  };
-
-  // 이름 수정
   const handleSave = async () => {
-    // 비어있는 경우
-    if (inputValue.trim() === "") {
-      setErrorMessage("폴더명을 입력해 주세요.");
-      return;
-    }
-    // 중복된 경우
-    if (isDuplicate) {
-      showDialog({
-        title: "폴더 생성 중복",
-        message: "기존의 폴더명과 중복되어 생성이 불가능합니다.",
-        subMessage: "폴더명을 변경해 주세요.",
-        confirmText: "확인",
-      });
-      return;
-    }
-    const res = await createFolderApi(inputValue);
+    if (isSaving) return;
+    setIsSaving(true);
 
-    if (res.success) {
-      commitValue(inputValue); // 저장된 이름 갱신
-      onRename(id, inputValue); // 상태에 반영 (UI 갱신용)
-      onStopEdit();
-      setErrorMessage("");
-    } else {
-      setErrorMessage(res.message || "폴더 생성 중 오류가 발생했습니다.");
+    try {
+      if (!isModified || inputValue.trim() === originalValue.trim()) {
+        onStopEdit();
+        return;
+      }
+
+      if (inputValue.trim() === "") {
+        setErrorMessage("폴더명을 입력해 주세요.");
+        return;
+      }
+
+      if (isDuplicate) {
+        showDialog({
+          title: "폴더 생성 중복",
+          message: "기존의 폴더명과 중복되어 생성이 불가능합니다.",
+          subMessage: "폴더명을 변경해 주세요.",
+          confirmText: "확인",
+        });
+        return;
+      }
+
+      if (folder?.isNew) {
+        const res = await createFolderApi(inputValue);
+        if (res.success) {
+          commitValue(inputValue);
+          await onRename(id, inputValue, res.data.id);
+          onStopEdit();
+          setErrorMessage("");
+        } else {
+          setErrorMessage(res.message || "폴더 생성 중 오류가 발생했습니다.");
+        }
+        return;
+      }
+
+      // ✅ API 호출은 FolderContext로 위임
+      const success = await onRename(id, inputValue);
+      if (success) {
+        commitValue(inputValue);
+        onStopEdit();
+        setErrorMessage("");
+      } else {
+        setErrorMessage("폴더 이름 수정 실패");
+      }
+    } catch (err) {
+      console.error("폴더 저장 에러:", err);
+      setErrorMessage("서버 통신 오류");
+    } finally {
+      setIsSaving(false);
     }
   };
 
   return (
     <div
       ref={ref}
-      onClick={handleClick}
+      onDoubleClick={() => {
+        onDoubleClick?.(folder.id);
+      }}
       className={`folder-item
         ${isEditing ? "folder-item--editing" : ""}
-        ${clickState === "single" ? "folder-item--clicked" : ""}
-        ${clickState === "double" ? "folder-item--double-clicked" : ""}
-        ${
-          (clickState === "single" || clickState === "double") && !isEditing
-            ? "folder-item--hidden-icons"
-            : ""
-        }
+        ${isActive ? "folder-item--double-clicked" : ""}
+        ${isActive && !isEditing ? "folder-item--hidden-icons" : ""}
       `}
     >
       {isEditing ? (
@@ -110,7 +108,12 @@ const FolderListItem = ({
             className="folder-item__input"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSave()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSave();
+              }
+            }}
           />
 
           {errorMessage && (

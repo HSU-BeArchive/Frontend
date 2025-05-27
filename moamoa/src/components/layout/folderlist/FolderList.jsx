@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useFolderContext } from "../../../contexts/FolderContext";
 import {
   DndContext,
   closestCenter,
@@ -8,30 +10,45 @@ import {
 } from "@dnd-kit/core";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
 import {
-  arrayMove,
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./FolderList.scss";
-import useFolderList from "../../../hooks/useFolderList";
 import { FaPlus } from "react-icons/fa6";
 import FolderListItem from "./FolderListItem";
-import Dialog from "../../common/dialog/Dialog";
 import useDialog from "../../../hooks/useDialog";
 
 const FolderList = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [activeFolderId, setActiveFolderId] = useState(null); // 더블클릭한 폴더
+
   const MAX_NAME_LENGTH = 5;
   const {
     folders,
-    setFolders,
     editingId,
     setEditingId,
     handleAddFolder,
     handleConfirmDelete,
     handleRenameFolder,
-  } = useFolderList();
+    handleReorderFolders,
+  } = useFolderContext();
+
+  // 경로가 archive가 아닐 경우 비활성화
+  useEffect(() => {
+    const isArchiveRoute = /^\/archive(\/|$)/.test(location.pathname);
+    if (!isArchiveRoute) {
+      setActiveFolderId(null);
+    }
+  }, [location.pathname]);
+
+  // 더블클릭 이벤트
+  const handleDoubleClick = (folderId) => {
+    setActiveFolderId(folderId);
+    navigate(`/archive/${folderId}`);
+  };
 
   const formatFolderName = (name) => {
     return name.length > MAX_NAME_LENGTH
@@ -62,9 +79,7 @@ const FolderList = () => {
 
   const handleDragEnd = ({ active, over }) => {
     if (active.id !== over?.id) {
-      const oldIndex = folders.findIndex((f) => f.id === active.id);
-      const newIndex = folders.findIndex((f) => f.id === over?.id);
-      setFolders((items) => arrayMove(items, oldIndex, newIndex));
+      handleReorderFolders(active.id, over.id);
     }
   };
 
@@ -97,6 +112,8 @@ const FolderList = () => {
                 onRequestDelete={() => handleDelete(folder)}
                 onRename={handleRenameFolder}
                 folderNames={folders.map((f) => f.name)}
+                onDoubleClick={handleDoubleClick}
+                isActive={activeFolderId === folder.id}
               />
             ))}
           </div>
@@ -115,6 +132,8 @@ function SortableFolder({
   onRequestDelete,
   onRename,
   folderNames,
+  onDoubleClick,
+  isActive,
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
@@ -129,12 +148,15 @@ function SortableFolder({
       <FolderListItem
         id={folder.id}
         name={folder.name}
+        folder={folder}
         isEditing={isEditing}
         onStartEdit={onStartEdit}
         onStopEdit={onStopEdit}
         onRequestDelete={onRequestDelete}
         onRename={onRename}
         folderNames={folderNames}
+        isActive={isActive}
+        onDoubleClick={onDoubleClick}
       />
     </div>
   );
