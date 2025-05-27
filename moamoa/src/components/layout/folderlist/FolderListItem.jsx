@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import "./FolderList.scss";
 import Dialog from "../../common/dialog/Dialog";
 import useEditableInput from "../../../hooks/useEditableInput";
@@ -20,13 +20,14 @@ const FolderListItem = ({
   onRequestDelete,
   onRename,
   folderNames,
+  onDoubleClick,
+  isActive,
 }) => {
   const { inputValue, setInputValue, originalValue, isModified, commitValue } =
     useEditableInput(name);
 
   const { showDialog } = useDialog(); // 중복 경고창
   const ref = useRef(null);
-  const [clickState, setClickState] = useState(null);
 
   // 중복 여부 체크
   const isDuplicate = isDuplicateFolderName(
@@ -37,34 +38,14 @@ const FolderListItem = ({
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  // 외부 클릭 시 상태 초기화
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setClickState(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // 클릭 상태 처리 (단일/더블 클릭)
-  let clickTimeout = useRef(null);
-  const handleClick = () => {
-    if (clickTimeout.current) {
-      clearTimeout(clickTimeout.current);
-      clickTimeout.current = null;
-      setClickState("double");
-    } else {
-      clickTimeout.current = setTimeout(() => {
-        setClickState("single");
-        clickTimeout.current = null;
-      }, 250);
-    }
-  };
-
   // 이름 수정
   const handleSave = async () => {
+    // 수정 안 했으면 그냥 편집 종료
+    if (!isModified) {
+      onStopEdit();
+      return;
+    }
+
     // 비어있는 경우
     if (inputValue.trim() === "") {
       setErrorMessage("폴더명을 입력해 주세요.");
@@ -82,7 +63,6 @@ const FolderListItem = ({
     }
 
     if (folder?.isNew) {
-      
       const res = await createFolderApi(inputValue);
 
       if (res.success) {
@@ -107,20 +87,17 @@ const FolderListItem = ({
       setErrorMessage(res.message || "폴더 수정 중 오류가 발생했습니다.");
     }
   };
-  
+
   return (
     <div
       ref={ref}
-      onClick={handleClick}
+      onDoubleClick={() => {
+        onDoubleClick?.(folder.id);
+      }}
       className={`folder-item
         ${isEditing ? "folder-item--editing" : ""}
-        ${clickState === "single" ? "folder-item--clicked" : ""}
-        ${clickState === "double" ? "folder-item--double-clicked" : ""}
-        ${
-          (clickState === "single" || clickState === "double") && !isEditing
-            ? "folder-item--hidden-icons"
-            : ""
-        }
+        ${isActive ? "folder-item--double-clicked" : ""}
+        ${isActive && !isEditing ? "folder-item--hidden-icons" : ""}
       `}
     >
       {isEditing ? (
