@@ -1,9 +1,11 @@
 // src/contexts/FolderContext.js
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { arrayMove } from "@dnd-kit/sortable";
 import getFolderListApi from "../api/folder/getFolderListApi";
 import createFolderApi from "../api/folder/createFolderApi";
 import deleteFolderApi from "../api/folder/deleteFolderApi";
 import updateFolderNameApi from "../api/folder/updateFolderNameApi";
+import setFolderOrderApi from "../api/folder/setFolderOrderApi";
 
 const FolderContext = createContext();
 export const useFolderContext = () => useContext(FolderContext);
@@ -16,12 +18,14 @@ export const FolderProvider = ({ children }) => {
   const fetchFolders = async () => {
     const res = await getFolderListApi();
     if (res.success) {
-      const formatted = res.data.folderSummeryList.map((folder) => ({
-        id: folder.folderId,
-        name: folder.folderName,
-        isEmpty: folder.isEmpty,
-        order: folder.folderOrder,
-      }));
+      const formatted = res.data.folderSummeryList
+        .map((folder) => ({
+          id: folder.folderId,
+          name: folder.folderName,
+          isEmpty: folder.isEmpty,
+          order: folder.folderOrder,
+        }))
+        .sort((a, b) => a.order - b.order);
       setFolders(formatted);
     } else {
       console.error("폴더 목록 조회 실패:", res.message);
@@ -73,6 +77,23 @@ export const FolderProvider = ({ children }) => {
     }
   };
 
+  // 5. 폴더 순서 변경
+  const handleReorderFolders = async (activeId, overId) => {
+    const oldIndex = folders.findIndex((f) => f.id === activeId);
+    const newIndex = folders.findIndex((f) => f.id === overId);
+    if (oldIndex === -1 || newIndex === -1) return;
+
+    const reordered = arrayMove(folders, oldIndex, newIndex);
+    setFolders(reordered.map((folder, idx) => ({ ...folder, order: idx })));
+
+    for (let i = 0; i < reordered.length; i++) {
+      const folder = reordered[i];
+      if (folder.order !== i) {
+        await setFolderOrderApi(folder.id, i);
+      }
+    }
+  };
+
   return (
     <FolderContext.Provider
       value={{
@@ -83,6 +104,7 @@ export const FolderProvider = ({ children }) => {
         handleAddFolder,
         handleConfirmDelete,
         handleRenameFolder,
+        handleReorderFolders,
         fetchFolders,
       }}
     >

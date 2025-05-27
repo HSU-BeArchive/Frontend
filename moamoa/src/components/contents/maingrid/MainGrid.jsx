@@ -12,7 +12,6 @@ import {
   SortableContext,
   useSortable,
   rectSortingStrategy,
-  arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
@@ -20,7 +19,7 @@ import "./MainGrid.scss";
 import FolderItem from "./folderitem/FolderItem";
 
 const MainGrid = () => {
-  const { folders, setFolders } = useFolderContext();
+  const { folders, handleReorderFolders } = useFolderContext();
   const navigate = useNavigate();
 
   const sensors = useSensors(
@@ -37,9 +36,7 @@ const MainGrid = () => {
 
   const handleDragEnd = ({ active, over }) => {
     if (active.id !== over?.id) {
-      const oldIndex = folders.findIndex((f) => f.id === active.id);
-      const newIndex = folders.findIndex((f) => f.id === over?.id);
-      setFolders((items) => arrayMove(items, oldIndex, newIndex));
+      handleReorderFolders(active.id, over.id);
     }
   };
 

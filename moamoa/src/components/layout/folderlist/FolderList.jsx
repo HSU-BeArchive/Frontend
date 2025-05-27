@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useFolderContext } from "../../../contexts/FolderContext";
 import {
   DndContext,
   closestCenter,
@@ -9,14 +10,12 @@ import {
 } from "@dnd-kit/core";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
 import {
-  arrayMove,
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./FolderList.scss";
-import useFolderList from "../../../hooks/useFolderList";
 import { FaPlus } from "react-icons/fa6";
 import FolderListItem from "./FolderListItem";
 import useDialog from "../../../hooks/useDialog";
@@ -29,13 +28,13 @@ const FolderList = () => {
   const MAX_NAME_LENGTH = 5;
   const {
     folders,
-    setFolders,
     editingId,
     setEditingId,
     handleAddFolder,
     handleConfirmDelete,
     handleRenameFolder,
-  } = useFolderList();
+    handleReorderFolders,
+  } = useFolderContext();
 
   // 경로가 archive가 아닐 경우 비활성화
   useEffect(() => {
@@ -80,9 +79,7 @@ const FolderList = () => {
 
   const handleDragEnd = ({ active, over }) => {
     if (active.id !== over?.id) {
-      const oldIndex = folders.findIndex((f) => f.id === active.id);
-      const newIndex = folders.findIndex((f) => f.id === over?.id);
-      setFolders((items) => arrayMove(items, oldIndex, newIndex));
+      handleReorderFolders(active.id, over.id);
     }
   };
 
