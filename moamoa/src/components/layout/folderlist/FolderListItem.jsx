@@ -8,7 +8,6 @@ import { GoPencil } from "react-icons/go";
 import { IoCheckmark } from "react-icons/io5";
 import { TbTrash } from "react-icons/tb";
 import createFolderApi from "../../../api/folder/createFolderApi";
-import updateFolderNameApi from "../../../api/folder/updateFolderNameApi";
 
 const FolderListItem = ({
   id,
@@ -26,65 +25,69 @@ const FolderListItem = ({
   const { inputValue, setInputValue, originalValue, isModified, commitValue } =
     useEditableInput(name);
 
-  const { showDialog } = useDialog(); // 중복 경고창
+  const { showDialog } = useDialog();
   const ref = useRef(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
-  // 중복 여부 체크
   const isDuplicate = isDuplicateFolderName(
     inputValue,
     originalValue,
     folderNames
   );
 
-  const [errorMessage, setErrorMessage] = useState("");
-
-  // 이름 수정
   const handleSave = async () => {
-    // 수정 안 했으면 그냥 편집 종료
-    if (!isModified) {
-      onStopEdit();
-      return;
-    }
+    if (isSaving) return;
+    setIsSaving(true);
 
-    // 비어있는 경우
-    if (inputValue.trim() === "") {
-      setErrorMessage("폴더명을 입력해 주세요.");
-      return;
-    }
-    // 중복된 경우
-    if (isDuplicate) {
-      showDialog({
-        title: "폴더 생성 중복",
-        message: "기존의 폴더명과 중복되어 생성이 불가능합니다.",
-        subMessage: "폴더명을 변경해 주세요.",
-        confirmText: "확인",
-      });
-      return;
-    }
+    try {
+      if (!isModified || inputValue.trim() === originalValue.trim()) {
+        onStopEdit();
+        return;
+      }
 
-    if (folder?.isNew) {
-      const res = await createFolderApi(inputValue);
+      if (inputValue.trim() === "") {
+        setErrorMessage("폴더명을 입력해 주세요.");
+        return;
+      }
 
-      if (res.success) {
-        commitValue(inputValue); // 저장된 이름 갱신
-        onRename(id, inputValue, res.data.id); // 상태에 반영 (UI 갱신용)
+      if (isDuplicate) {
+        showDialog({
+          title: "폴더 생성 중복",
+          message: "기존의 폴더명과 중복되어 생성이 불가능합니다.",
+          subMessage: "폴더명을 변경해 주세요.",
+          confirmText: "확인",
+        });
+        return;
+      }
+
+      if (folder?.isNew) {
+        const res = await createFolderApi(inputValue);
+        if (res.success) {
+          commitValue(inputValue);
+          await onRename(id, inputValue, res.data.id);
+          onStopEdit();
+          setErrorMessage("");
+        } else {
+          setErrorMessage(res.message || "폴더 생성 중 오류가 발생했습니다.");
+        }
+        return;
+      }
+
+      // ✅ API 호출은 FolderContext로 위임
+      const success = await onRename(id, inputValue);
+      if (success) {
+        commitValue(inputValue);
         onStopEdit();
         setErrorMessage("");
       } else {
-        setErrorMessage(res.message || "폴더 생성 중 오류가 발생했습니다.");
+        setErrorMessage("폴더 이름 수정 실패");
       }
-      return;
-    }
-
-    const res = await updateFolderNameApi(id, inputValue);
-
-    if (res.success) {
-      commitValue(inputValue);
-      onRename(id, inputValue);
-      onStopEdit();
-      setErrorMessage("");
-    } else {
-      setErrorMessage(res.message || "폴더 수정 중 오류가 발생했습니다.");
+    } catch (err) {
+      console.error("폴더 저장 에러:", err);
+      setErrorMessage("서버 통신 오류");
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -106,7 +109,12 @@ const FolderListItem = ({
             className="folder-item__input"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSave()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSave();
+              }
+            }}
           />
 
           {errorMessage && (
