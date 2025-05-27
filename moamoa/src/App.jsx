@@ -12,6 +12,7 @@ import BrainstormingPage from "./pages/BrainstormingPage.jsx";
 import WordcloudPage from "./pages/WordcloudPage.jsx";
 import NotFoundPage from "./pages/notfoundPage/NotFoundPage.jsx";
 import Layout from "./components/layout/Layout.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/login" replace /> },
@@ -23,16 +24,38 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      { path: "main", element: <MainPage /> }, // 메인 페이지
-      { path: "archive/:folderId", element: <ArchivePage /> }, // 아카이브 페이지
+      {
+        path: "main",
+        element: (
+          <ProtectedRoute>
+            <MainPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "archive/:folderId",
+        element: (
+          <ProtectedRoute>
+            <ArchivePage />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "archive/:folderId/brainstorm/:refId",
-        element: <BrainstormingPage />,
-      }, // 브레인스토밍 페이지
+        element: (
+          <ProtectedRoute>
+            <BrainstormingPage />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "archive/:folderId/wordcloud",
-        element: <WordcloudPage />,
-      }, // 시각화 페이지
+        element: (
+          <ProtectedRoute>
+            <WordcloudPage />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 
