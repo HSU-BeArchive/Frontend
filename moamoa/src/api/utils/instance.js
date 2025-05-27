@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = `http://백엔드서버주소입력예정:8080/moamoa`;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const defaultInstance = axios.create({
   baseURL: BASE_URL,
