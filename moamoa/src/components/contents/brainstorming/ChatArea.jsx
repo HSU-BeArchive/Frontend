@@ -30,10 +30,12 @@ const ChatArea = ({ refId }) => {
         setRecommendationId(result.recommendationId);
 
         const history = await historyChatApi(result.recommendationId);
-        if (history.length > 0) {
-          setMessages(history);
-          setStarted(true);
-        }
+        const initialQuestion = result.question
+          ? [{ text: result.question, role: "AI" }]
+          : [];
+
+        setMessages([...initialQuestion, ...history]);
+        setStarted(true);
       }
     };
     fetchExisting();
@@ -50,12 +52,6 @@ const ChatArea = ({ refId }) => {
       const { question, recommendationId } = result;
       setMessages([{ text: question, role: "AI" }]);
       setRecommendationId(recommendationId);
-
-      // 추천 질문도 채팅으로 저장
-      await sendChatApi({
-        recommendationId,
-        sendMsg: question,
-      });
     } else {
       setMessages([{ text: "추천 질문을 생성하지 못했습니다.", role: "AI" }]);
     }

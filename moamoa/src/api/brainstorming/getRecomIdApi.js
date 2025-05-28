@@ -13,6 +13,7 @@ const getRecomIdApi = async (referenceId) => {
       console.log("RecommendationId 조회 성공");
       return {
         recommendationId: data.recommendationId,
+        question: data.question,
       };
     } else {
       console.warn("RecommendationId 조회 실패:", message);
