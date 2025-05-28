@@ -8,6 +8,7 @@ import EmptyBoard from "./EmptyBoard";
 import createRefApi from "../../../api/archive/createRefApi";
 import getAllRefsApi from "../../../api/archive/getAllRefsApi";
 import deleteRefApi from "../../../api/archive/deleteRefApi";
+import extractKeywordsApi from "../../../api/keywords/extractKeywordsApi";
 import "./archive.scss";
 
 const Archive = () => {
@@ -68,12 +69,23 @@ const Archive = () => {
     }
   };
 
+  const handleExtractKeywords = async () => {
+    const res = await extractKeywordsApi(folderId);
+    if (res?.isSuccess) {
+      navigate(`/archive/${folderId}/wordcloud`, {
+        state: { keywords: res.data.keywordList },
+      });
+    } else {
+      alert("키워드 추출 실패");
+    }
+  };
+
   return (
     <div className="archive-board-wrapper">
       <div className="archive-board-header">
         <div className="archive-board-title">아카이브 보드</div>
         <div className="archive-board-buttons">
-          <BrainstormButton onClick={() => {}} />
+          <BrainstormButton onClick={handleExtractKeywords} />
           <UploadButton
             onClick={() => setShowUploadDialog(true)}
             isActive={showUploadDialog}

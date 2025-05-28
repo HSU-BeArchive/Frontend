@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useFolderContext } from "../../../contexts/FolderContext";
 import {
@@ -23,7 +23,6 @@ import useDialog from "../../../hooks/useDialog";
 const FolderList = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeFolderId, setActiveFolderId] = useState(null); // 더블클릭한 폴더
 
   const MAX_NAME_LENGTH = 5;
   const {
@@ -34,6 +33,8 @@ const FolderList = () => {
     handleConfirmDelete,
     handleRenameFolder,
     handleReorderFolders,
+    activeFolderId,
+    setActiveFolderId,
   } = useFolderContext();
 
   // 경로가 archive가 아닐 경우 비활성화

@@ -13,6 +13,7 @@ export const useFolderContext = () => useContext(FolderContext);
 export const FolderProvider = ({ children }) => {
   const [folders, setFolders] = useState([]);
   const [editingId, setEditingId] = useState(null);
+  const [activeFolderId, setActiveFolderId] = useState(null);
 
   // 1. 폴더 목록 조회
   const fetchFolders = async () => {
@@ -106,6 +107,8 @@ export const FolderProvider = ({ children }) => {
         handleRenameFolder,
         handleReorderFolders,
         fetchFolders,
+        activeFolderId,
+        setActiveFolderId,
       }}
     >
       {children}

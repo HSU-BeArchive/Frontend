@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import "./FolderList.scss";
-import Dialog from "../../common/dialog/Dialog";
 import useEditableInput from "../../../hooks/useEditableInput";
 import useDialog from "../../../hooks/useDialog";
 import { isDuplicateFolderName } from "../../../utils/validation";
@@ -74,7 +73,6 @@ const FolderListItem = ({
         return;
       }
 
-      // ✅ API 호출은 FolderContext로 위임
       const success = await onRename(id, inputValue);
       if (success) {
         commitValue(inputValue);
