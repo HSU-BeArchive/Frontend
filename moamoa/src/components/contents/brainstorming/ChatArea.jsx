@@ -19,6 +19,7 @@ const ChatArea = ({ refId }) => {
 
   const thinkingDots = useThinkingDots(loadingAI); // 늘어나는 점
   const chatBoxRef = useRef(null);
+  const inputRef = useRef(null);
   useAutoScroll(chatBoxRef, messages); // 자동 스크롤
 
   // 채팅 존재 여부 확인
@@ -89,6 +90,9 @@ const ChatArea = ({ refId }) => {
     });
 
     setLoadingAI(false);
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
   };
 
   // Enterkey 이벤트
@@ -144,6 +148,7 @@ const ChatArea = ({ refId }) => {
           <>
             <input
               className="chat-area__input"
+              ref={inputRef}
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
