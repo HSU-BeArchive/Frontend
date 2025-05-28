@@ -4,10 +4,10 @@ import WordCloud from "react-d3-cloud";
 
 // 조건에 따라 색상 설정
 const getColor = (word) => {
-  if (word.value > 25) return "#66B2FE"; // 매우 큰 값
-  if (word.value > 20) return "#AFE56C"; // 큰 값
-  if (word.value > 15) return "#F7E789"; // 중간 값
-  if (word.value > 10) return "#FFC59C"; // 작은 값
+  if (word.value > 10) return "#66B2FE"; // 매우 큰 값
+  if (word.value > 7) return "#AFE56C"; // 큰 값
+  if (word.value > 5) return "#F7E789"; // 중간 값
+  if (word.value > 3) return "#FFC59C"; // 작은 값
   return "#9D9D9D"; // 매우 작은 값
 };
 
@@ -21,7 +21,7 @@ const fontSizeMapper = (word) => {
 
 const Wordcloud = ({ keywords }) => {
   const containerRef = useRef();
-  const [size, setSize] = useState({ width: 1392, height: 682 }); 
+  const [size, setSize] = useState({ width: 1392, height: 682 });
 
   // 워드클라우드를 현재 컨테이너 크기에 맞춰 자동 조정
   useEffect(() => {
