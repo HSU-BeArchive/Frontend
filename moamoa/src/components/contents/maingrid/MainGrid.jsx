@@ -19,7 +19,8 @@ import "./MainGrid.scss";
 import FolderItem from "./folderitem/FolderItem";
 
 const MainGrid = () => {
-  const { folders, handleReorderFolders } = useFolderContext();
+  const { folders, handleReorderFolders, setActiveFolderId } =
+    useFolderContext();
   const navigate = useNavigate();
 
   const sensors = useSensors(
@@ -31,6 +32,7 @@ const MainGrid = () => {
   );
 
   const handleFolderClick = (folderId) => {
+    setActiveFolderId(folderId);
     navigate(`/archive/${folderId}`);
   };
 
