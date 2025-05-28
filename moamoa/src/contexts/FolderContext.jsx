@@ -65,11 +65,14 @@ export const FolderProvider = ({ children }) => {
   };
 
   // 4. 폴더 이름 수정
-  const handleRenameFolder = async (id, newName) => {
-    const res = await updateFolderNameApi(id, newName);
+  const handleRenameFolder = async (id, newName, realId = null) => {
+    const folderId = realId ?? id;
+    const res = await updateFolderNameApi(folderId, newName);
     if (res.success) {
       setFolders((prev) =>
-        prev.map((f) => (f.id === id ? { ...f, name: newName } : f))
+        prev.map((f) =>
+          f.id === id ? { ...f, id: folderId, name: newName, isNew: false } : f
+        )
       );
       return true;
     } else {

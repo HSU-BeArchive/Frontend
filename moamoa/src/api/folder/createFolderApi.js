@@ -13,7 +13,7 @@ const createFolderApi = async (folderName) => {
 
     if (httpStatus === 201 && isSuccess) {
       console.log("폴더 생성 성공:", data);
-      return { success: true, data };
+      return { success: true, data: { id: data.folderId } };
     } else {
       console.warn(`폴더 생성 실패 [${code}]:`, message);
       return { success: false, message };
