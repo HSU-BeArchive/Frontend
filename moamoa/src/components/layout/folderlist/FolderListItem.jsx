@@ -73,7 +73,6 @@ const FolderListItem = ({
         return;
       }
 
-      // ✅ API 호출은 FolderContext로 위임
       const success = await onRename(id, inputValue);
       if (success) {
         commitValue(inputValue);
