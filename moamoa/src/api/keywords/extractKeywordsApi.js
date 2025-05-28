@@ -3,7 +3,7 @@ import defaultInstance from "../utils/instance";
 
 const extractKeywordsApi = async (folderId) => {
   try {
-    const response = await defaultInstance.post("/keywords/extr", {
+    const response = await defaultInstance.post("/keywords/extract", {
       folderId: folderId,
     });
     return response.data;

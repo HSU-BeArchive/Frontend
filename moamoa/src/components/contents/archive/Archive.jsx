@@ -9,7 +9,6 @@ import createRefApi from "../../../api/archive/createRefApi";
 import getAllRefsApi from "../../../api/archive/getAllRefsApi";
 import deleteRefApi from "../../../api/archive/deleteRefApi";
 import extractKeywordsApi from "../../../api/keywords/extractKeywordsApi";
-import Wordcloud from "../wordcloud/Wordcloud";
 import "./archive.scss";
 
 const Archive = () => {
@@ -17,7 +16,6 @@ const Archive = () => {
   const navigate = useNavigate();
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [cards, setCards] = useState([]);
-  const [keywords, setKeywords] = useState([]);
 
   // 레퍼런스 전체 목록 불러오기
   useEffect(() => {
@@ -74,8 +72,9 @@ const Archive = () => {
   const handleExtractKeywords = async () => {
     const res = await extractKeywordsApi(folderId);
     if (res?.isSuccess) {
-      setKeywords(res.data.keywordList);
-      console.log("추출된 키워드:", res.data.keywordList);
+      navigate(`/archive/${folderId}/wordcloud`, {
+        state: { keywords: res.data.keywordList },
+      });
     } else {
       alert("키워드 추출 실패");
     }
@@ -124,11 +123,6 @@ const Archive = () => {
           onClose={() => setShowUploadDialog(false)}
           onUpload={handleUpload}
         />
-      )}
-      {keywords.length > 0 && (
-        <div className="archive-board-wordcloud">
-          <Wordcloud keywords={keywords} />
-        </div>
       )}
     </div>
   );

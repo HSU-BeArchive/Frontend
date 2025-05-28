@@ -25,7 +25,7 @@ const Brainstorming = () => {
       </div>
       <div className="brainstorming__chat">
         <ReferenceInfo data={referenceData} folderId={folderId} refId={refId} />
-        <ChatArea />
+        <ChatArea refId={refId} />
       </div>
     </div>
   );
