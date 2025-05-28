@@ -8,6 +8,8 @@ import EmptyBoard from "./EmptyBoard";
 import createRefApi from "../../../api/archive/createRefApi";
 import getAllRefsApi from "../../../api/archive/getAllRefsApi";
 import deleteRefApi from "../../../api/archive/deleteRefApi";
+import extractKeywordsApi from "../../../api/keywords/extractKeywordsApi";
+import Wordcloud from "../wordcloud/Wordcloud";
 import "./archive.scss";
 
 const Archive = () => {
@@ -15,6 +17,7 @@ const Archive = () => {
   const navigate = useNavigate();
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [cards, setCards] = useState([]);
+  const [keywords, setKeywords] = useState([]);
 
   // 레퍼런스 전체 목록 불러오기
   useEffect(() => {
@@ -68,12 +71,22 @@ const Archive = () => {
     }
   };
 
+  const handleExtractKeywords = async () => {
+    const res = await extractKeywordsApi(folderId);
+    if (res?.isSuccess) {
+      setKeywords(res.data.keywordList);
+      console.log("추출된 키워드:", res.data.keywordList);
+    } else {
+      alert("키워드 추출 실패");
+    }
+  };
+
   return (
     <div className="archive-board-wrapper">
       <div className="archive-board-header">
         <div className="archive-board-title">아카이브 보드</div>
         <div className="archive-board-buttons">
-          <BrainstormButton onClick={() => {}} />
+          <BrainstormButton onClick={handleExtractKeywords} />
           <UploadButton
             onClick={() => setShowUploadDialog(true)}
             isActive={showUploadDialog}
@@ -111,6 +124,11 @@ const Archive = () => {
           onClose={() => setShowUploadDialog(false)}
           onUpload={handleUpload}
         />
+      )}
+      {keywords.length > 0 && (
+        <div className="archive-board-wordcloud">
+          <Wordcloud keywords={keywords} />
+        </div>
       )}
     </div>
   );
