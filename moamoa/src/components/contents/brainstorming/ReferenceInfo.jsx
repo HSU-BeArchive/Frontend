@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import editRefInfoApi from "../../../api/brainstorming/editRefInfoAPI";
+import editRefInfoApi from "../../../api/brainstorming/editRefInfoApi";
 import { GoPencil } from "react-icons/go";
 import { IoCheckmark } from "react-icons/io5";
 import "./Brainstorming.scss";
