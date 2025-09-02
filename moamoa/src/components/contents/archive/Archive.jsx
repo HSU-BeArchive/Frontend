@@ -9,7 +9,7 @@ import createRefApi from "../../../api/archive/createRefApi";
 import getAllRefsApi from "../../../api/archive/getAllRefsApi";
 import deleteRefApi from "../../../api/archive/deleteRefApi";
 import extractKeywordsApi from "../../../api/keywords/extractKeywordsApi";
-import "./archive.scss";
+import "./Archive.scss";
 
 const Archive = () => {
   const { folderId } = useParams();
